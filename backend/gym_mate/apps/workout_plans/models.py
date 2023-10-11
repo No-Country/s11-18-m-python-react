@@ -38,7 +38,7 @@ class CommentsRoutine(TimeStampedModel):
     """Class representing a Comments Routine"""
 
     text = models.CharField(max_length=256)
-    id_routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    id_routine = models.ForeignKey(Routine, related_name="comment", on_delete=models.CASCADE)
     # id_user =
     
     class Meta:
@@ -53,7 +53,7 @@ class RoutineAsignation(models.Model):
     """Class representing a Routine Asignation"""
 
     # id_user =
-    id_routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    id_routine = models.ForeignKey(Routine, related_name="asignation", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Routine Asignation'
@@ -66,11 +66,10 @@ class RoutineAsignation(models.Model):
 class RoutineRating(TimeStampedModel):
     """Class representing a Routine Rating"""
 
-    rating = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)])
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     text = models.CharField(max_length=256)
     # id_user =
-    id_routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    id_routine = models.ForeignKey(Routine, related_name="reating", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Routine Rating'
@@ -114,9 +113,9 @@ class Workout(TimeStampedModel):
 class Junction_DaysRoutineWorkout(models.Model):
     """Class representing a Junction Days Routine Workout"""
 
-    id_day = models.ForeignKey(WeekDays, on_delete=models.CASCADE)
-    id_routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
-    id_workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    id_day = models.ForeignKey(WeekDays,related_name="days", on_delete=models.CASCADE)
+    id_routine = models.ForeignKey(Routine,related_name="daysroutine", on_delete=models.CASCADE)
+    id_workout = models.ForeignKey(Workout, related_name="workout", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Day'

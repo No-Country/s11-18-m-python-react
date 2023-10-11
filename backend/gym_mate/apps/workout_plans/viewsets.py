@@ -15,7 +15,9 @@ from .serializers import (
     PerformanceNoteRoutineSerializers,
     CommentsRoutineSerializers,
     RoutineAsignationSerializers,
-    RoutineRatingSerializers
+    RoutineRatingSerializers,
+    RoutineSerializersList,
+    RoutineSerializersRetrive
 )
 
 
@@ -26,7 +28,27 @@ class RoutineViewSets(viewsets.ModelViewSet):
     pagination_class = PaginationSerializer
     queryset = Routine.objects.all().order_by('-created')
     
+    
+    def list(self, request, *args, **kwargs):
+        queryset = Routine.objects.all().order_by('-created')
 
+        serializer = RoutineSerializersList(queryset, many=True)
+        return Response(serializer.data)
+    
+    
+    def create(self, request, *args, **kwargs):
+        serializer = RoutineSerializers(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, headers=headers)
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = RoutineSerializersRetrive(instance)
+        return Response(serializer.data)
+    
+    
 class PerformanceNoteRoutineViewSets(viewsets.ModelViewSet):
     """Class representing a Performance Note Routine ViewSets"""
 
