@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings 
+from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('routine/', include('apps.workout_plant.urls')),
-] + static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Urls Router Workout Plans
+    path('routine-urls/', include('apps.workout_plans.urls')),
+    # Router Workout Plans
+    path('routine/', include('apps.workout_plans.routers')),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,6 @@
+# Django
 from django.contrib import admin
+# Models
 from .models import *
 
 models_to_register = [
