@@ -40,8 +40,7 @@ class Login(ObtainAuthToken):
                     'user': user_serializer.data
                 })
     
-    
+
         else:
             return Response({'error': 'invalid username or password'})
         
-        print(adsfasd)
