@@ -7,7 +7,10 @@ from .models import (
     CommentsRoutine,
     RoutineAsignation,
     RoutineRating,
-    Junction_DaysRoutineWorkout
+    Junction_DaysRoutineWorkout,
+    Workout,
+    WorkoutImage,
+    WorkoutVideo
     )
 
 
@@ -160,5 +163,58 @@ class RoutineSerializers(serializers.ModelSerializer):
             "created",
             "title",
             "description",
-            "is_paid",  
+            "is_paid",
+
+        ]
+
+
+class WorkoutSerializer(serializers.ModelSerializer):
+    """Class representing a Workout Serializer. Method create """
+
+    class Meta:
+        model = Workout
+        fields = ("__all__")
+
+
+class WorkoutImageSerializer(serializers.ModelSerializer):
+    "Class representing a Workout image serializer"
+
+    class Meta:
+        model = WorkoutImage
+        fields = ("__all__")
+
+
+class WorkoutVideoSerializer(serializers.ModelSerializer):
+    "Class representing a Workout image serializer"
+
+    class Meta:
+        model = WorkoutVideo
+        fields = ("__all__")
+
+
+class WorkoutSerializerList(serializers.ModelSerializer):
+    "Class representig a Workout Serializer. Method retrieve"
+    
+    class Meta:
+        model = Workout
+        fields = ("__all__")
+
+
+class WorkoutSerializersRetrieve(serializers.ModelSerializer):
+    """Class representing a Workout Serializer. Method retrive """
+
+    images = WorkoutImageSerializer(many=True)
+    videos = WorkoutVideoSerializer(many=True)
+    day_id = Junction_DaysRoutineWorkoutSerializers(many=True)
+    routine_id = Junction_DaysRoutineWorkoutSerializers(many=True)
+
+    class Meta:
+        model = Workout
+        fields = [
+            "id",
+            "created",
+            "images",
+            "videos",
+            "day_id",
+            "routine_id"
         ]

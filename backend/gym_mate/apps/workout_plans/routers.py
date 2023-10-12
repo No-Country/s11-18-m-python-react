@@ -10,10 +10,6 @@ router.register(r'performance-note-routine', viewsets.PerformanceNoteRoutineView
 router.register(r'comment-routine', viewsets.CommentsRoutineViewSets, basename="comment")
 router.register(r'asignation', viewsets.RoutineAsignationViewSets, basename="asignation")
 router.register(r'rating', viewsets.RoutineRatingViewSets, basename="rating")
-
+router.register(r'workout', viewsets.WorkoutViewSets, basename='Workout')
 
 urlpatterns = router.urls
-
-
-
-
