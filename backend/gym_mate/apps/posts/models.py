@@ -20,8 +20,10 @@ class CommentPost(TimeStampedModel):
 
 class Junction_likes(models.Model):
     post_id = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    total_likes = models.PositiveIntegerField(default = 0)
     # user_id
 
 class Junction_repost(models.Model):
     post_id = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    total_repost = models.PositiveIntegerField(default = 0)
     # user_id
