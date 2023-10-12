@@ -69,6 +69,7 @@ class RoutineSerializersRetrive(serializers.ModelSerializer):
     count_asignation = serializers.SerializerMethodField()
     count_reating = serializers.SerializerMethodField()
     count_daysroutine = serializers.SerializerMethodField()
+    average_reating = serializers.SerializerMethodField()
 
     class Meta:
         model = Routine
@@ -82,10 +83,12 @@ class RoutineSerializersRetrive(serializers.ModelSerializer):
             "count_asignation",
             "count_reating",
             "count_daysroutine",
+            "average_reating",
             "comment",
             "asignation",
             "reating",
             "daysroutine",
+            
         ]
     def get_count_comment(self, obj):
         return obj.comment.all().count()
@@ -95,6 +98,16 @@ class RoutineSerializersRetrive(serializers.ModelSerializer):
         return obj.reating.all().count()
     def get_count_daysroutine(self, obj):
         return obj.daysroutine.all().count()
+    def get_average_reating(self, obj):
+        ratings = obj.reating.all()
+        rating_values = [] 
+        for rating in ratings:
+            rating_values.append(rating.rating)            
+        if len(rating_values) != 0:
+            average = sum(rating_values) // len(rating_values)
+        else:
+            average = 0
+        return average
 
 
 
@@ -124,7 +137,15 @@ class RoutineSerializersList(serializers.ModelSerializer):
     def get_asignation(self, obj):
         return obj.asignation.all().count()
     def get_reating(self, obj):
-        return obj.reating.all().count()
+        ratings = obj.reating.all()
+        rating_values = [] 
+        for rating in ratings:
+            rating_values.append(rating.rating)            
+        if len(rating_values) != 0:
+            average = sum(rating_values) // len(rating_values)
+        else:
+            average = 0
+        return average
     def get_daysroutine(self, obj):
         return obj.daysroutine.all().count()
 
@@ -139,6 +160,5 @@ class RoutineSerializers(serializers.ModelSerializer):
             "created",
             "title",
             "description",
-            "is_paid",
-
+            "is_paid",  
         ]
