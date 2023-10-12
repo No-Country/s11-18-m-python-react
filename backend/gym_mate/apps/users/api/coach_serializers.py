@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .user_models import (
+from apps.coach_users.models import (
     Rating_Coach,
     Verification_Coach,
     Gym_Subscription,

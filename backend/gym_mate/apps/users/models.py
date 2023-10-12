@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 
 #Diet model
-
 class Diet(models.Model):
     name_diet = models.CharField(max_length=30)
     description = models.CharField(max_length=255)
