@@ -52,6 +52,7 @@ LOCAL_APPS = (
     'apps.users',
     'apps.posts',
     'apps.workout_plans',
+    'apps.coach_users'
 )
 
 THIRD_PARTY_APPS = (
@@ -137,3 +138,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+AUTH_USER_MODEL = 'users.User'

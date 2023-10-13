@@ -21,8 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Urls Router Workout Plans
-    path('routine-urls/', include('apps.workout_plans.urls')),
+    path('api/', include('apps.users.api.urls')),
     # Router Workout Plans
     path('routine/', include('apps.workout_plans.routers')),
 
