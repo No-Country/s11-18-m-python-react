@@ -3,12 +3,12 @@ from rest_framework import serializers, pagination
 # Workout Plans Model
 from .models import (
     Routine,
-    PerformanceNoteRoutine,
     CommentsRoutine,
     RoutineAsignation,
     RoutineRating,
     Junction_DaysRoutineWorkout,
     Workout,
+    PerformanceNoteWorkout,
     WorkoutImage,
     WorkoutVideo
     )
@@ -19,14 +19,6 @@ class PaginationSerializer(pagination.PageNumberPagination):
 
     page_size = 5
     max_page_size = 50
-
-
-class PerformanceNoteRoutineSerializers(serializers.ModelSerializer):
-    """Class representing a  Performance Note Routine Serializers"""
-    
-    class Meta:
-        model = PerformanceNoteRoutine
-        fields = ("__all__")
 
 
 class CommentsRoutineSerializers(serializers.ModelSerializer):
@@ -164,7 +156,6 @@ class RoutineSerializers(serializers.ModelSerializer):
             "title",
             "description",
             "is_paid",
-
         ]
 
 
@@ -173,6 +164,14 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
+        fields = ("__all__")
+
+
+class PerformanceNoteWorkoutSerializers(serializers.ModelSerializer):
+    """Class representing a  Performance Note Workout Serializers"""
+
+    class Meta:
+        model = PerformanceNoteWorkout
         fields = ("__all__")
 
 
@@ -193,7 +192,7 @@ class WorkoutVideoSerializer(serializers.ModelSerializer):
 
 
 class WorkoutSerializerList(serializers.ModelSerializer):
-    "Class representig a Workout Serializer. Method retrieve"
+    "Class representig a Workout Serializer. Method list"
     
     class Meta:
         model = Workout
@@ -203,6 +202,7 @@ class WorkoutSerializerList(serializers.ModelSerializer):
 class WorkoutSerializersRetrieve(serializers.ModelSerializer):
     """Class representing a Workout Serializer. Method retrive """
 
+    comments = PerformanceNoteWorkoutSerializers(many=True)
     images = WorkoutImageSerializer(many=True)
     videos = WorkoutVideoSerializer(many=True)
     day_id = Junction_DaysRoutineWorkoutSerializers(many=True)
@@ -213,6 +213,7 @@ class WorkoutSerializersRetrieve(serializers.ModelSerializer):
         fields = [
             "id",
             "created",
+            "comments",
             "images",
             "videos",
             "day_id",

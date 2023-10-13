@@ -4,7 +4,7 @@ from rest_framework.response import Response
 # Apps Products
 from .models import (
     Routine,
-    PerformanceNoteRoutine,
+    PerformanceNoteWorkout,
     CommentsRoutine,
     RoutineAsignation,
     RoutineRating,
@@ -13,7 +13,7 @@ from .models import (
 from .serializers import (
     RoutineSerializers,
     PaginationSerializer,
-    PerformanceNoteRoutineSerializers,
+    PerformanceNoteWorkoutSerializers,
     CommentsRoutineSerializers,
     RoutineAsignationSerializers,
     RoutineRatingSerializers,
@@ -53,12 +53,12 @@ class RoutineViewSets(viewsets.ModelViewSet):
         return Response(serializer.data)
     
     
-class PerformanceNoteRoutineViewSets(viewsets.ModelViewSet):
-    """Class representing a Performance Note Routine ViewSets"""
+class PerformanceNoteWorkoutViewSets(viewsets.ModelViewSet):
+    """Class representing a Performance Note Workout ViewSets"""
 
-    serializer_class = PerformanceNoteRoutineSerializers
+    serializer_class = PerformanceNoteWorkoutSerializers
     pagination_class = PaginationSerializer
-    queryset = PerformanceNoteRoutine.objects.all().order_by('-created')
+    queryset = PerformanceNoteWorkout.objects.all().order_by('-created')
 
 
 class CommentsRoutineViewSets(viewsets.ModelViewSet):

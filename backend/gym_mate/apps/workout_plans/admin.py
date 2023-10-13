@@ -5,7 +5,7 @@ from .models import *
 
 models_to_register = [
     Routine,
-    PerformanceNoteRoutine,
+    PerformanceNoteWorkout,
     CommentsRoutine,
     RoutineAsignation,
     RoutineRating,

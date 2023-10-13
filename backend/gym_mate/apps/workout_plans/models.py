@@ -20,19 +20,6 @@ class Routine(TimeStampedModel):
     def __str__(self):
         return str(self.title)
 
-class PerformanceNoteRoutine(TimeStampedModel):
-    """Class representing a Performance Note Routine"""
-
-    text = models.CharField(max_length=256)
-    id_routine = models.ForeignKey(Routine,related_name="performance", on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Note Routine'
-        verbose_name_plural = 'Note Routine'
-
-    def __str__(self):
-        return str(self.text)
-
 
 class CommentsRoutine(TimeStampedModel):
     """Class representing a Comments Routine"""
@@ -108,6 +95,20 @@ class Workout(TimeStampedModel):
 
     def __str__(self):
         return str(self.workout_name)
+
+
+class PerformanceNoteWorkout(TimeStampedModel):
+    """Class representing a Performance Note Workout"""
+
+    text = models.CharField(max_length=256)
+    id_workout = models.ForeignKey(Workout, related_name="performance", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Note Workout'
+        verbose_name_plural = 'Note Workout'
+
+    def __str__(self):
+        return str(self.text)
 
 
 class Junction_DaysRoutineWorkout(models.Model):
