@@ -1,37 +1,42 @@
 from apps.users.models import User
 
-from rest_framework.response import Response 
-from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .user_serializers import UserTokenSerializer, UserRegisterSerializer
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from apps.users.authenticate import CustomTokenAuthentication
 
+
+from .user_serializers import UserTokenSerializer, UserRegisterSerializer, UserDetailSerializer
+
+
+# REGISTRO
 class UserRegister(APIView):
     
     #Enviamos parametros por POST
     def post(self, request):
         
+        #validacion de password frontend
         user_serializer = UserRegisterSerializer(data = request.data)
         
         if user_serializer.is_valid():
-            user_serializer.save()
+            user = user_serializer.save()
+            
+            token = Token.objects.create(user = user)
             
         else:
             return Response(user_serializer.errors)        
-        
-        #required_fields = ['first_name', 'last_name', 'username', 'email', 'password']
-      
-        #for field in required_fields:
-        #    field_obtenido = request.data.get(field)
-            
-        #    if field_obtenido is None or field_obtenido == "":
-        #        return Response({'ERROR': f'El campo {field} no puede estar vacio'})
     
+        return Response({
+            'Token': token.key,
+            'User creado': user_serializer.data
+        })
 
-        return Response({'User creado': user_serializer.data})
 
-
+# LOGIN
 class UserLogin(ObtainAuthToken):
     
     #aca llegan usuario y contraseña mediante POST
@@ -67,7 +72,37 @@ class UserLogin(ObtainAuthToken):
                     'user': user_serializer.data
                 })
     
-
         else:
             return Response({'error': 'invalid username or password'})
         
+        
+# LOGOUT
+class UserLogout(APIView):
+    
+    authentication_classes = [CustomTokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        
+    
+        token = request.auth
+        token_key = token.key 
+            
+        token.delete()
+            
+        return Response({"Logout succesfly"})
+        
+    
+# DETALLES USER
+class UserDetailAPIview(APIView):
+    
+    authentication_classes = [CustomTokenAuthentication]
+    permission_classes = [IsAuthenticated]  # Requiere que el usuario esté autenticado
+
+    def get(self, request):
+        
+        user = request.user
+        
+        user_serializer = UserDetailSerializer(user)
+        
+        return Response({'user':user_serializer.data})

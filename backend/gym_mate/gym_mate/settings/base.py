@@ -138,3 +138,16 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 AUTH_USER_MODEL = 'users.User'
+
+#configuracion para todas las vistas
+#REST_FRAMEWORK = {
+    #Bearer Token mi-token
+ #   'DEFAULT_AUTHENTICATION_CLASSES': [
+  #      'apps.users.authenticate.CustomTokenAuthentication',
+   # ],
+    
+    #Defatul Token mi-token
+    #'DEFAULT_AUTHENTICATION_CLASSES': [
+    #    'rest_framework.authentication.TokenAuthentication',
+    #],
+#}
