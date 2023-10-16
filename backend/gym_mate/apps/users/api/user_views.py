@@ -94,7 +94,7 @@ class UserLogout(APIView):
         
     
 # DETALLES USER
-class UserDetailAPIview(APIView):
+class UserMeAPIview(APIView):
     
     authentication_classes = [CustomTokenAuthentication]
     permission_classes = [IsAuthenticated]  # Requiere que el usuario esté autenticado
