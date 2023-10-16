@@ -1,7 +1,11 @@
 # Rest
 from rest_framework.routers import DefaultRouter
-# Apps Producto
+# Django
+from django.urls import path, include
+# Viewsets
 from . import viewsets
+# Views
+from . import views
 
 router = DefaultRouter()
 
@@ -12,4 +16,9 @@ router.register(r'rating', viewsets.RoutineRatingViewSets, basename="rating")
 router.register(r'workout', viewsets.WorkoutViewSets, basename='Workout')
 router.register(r'performance-note-workout', viewsets.PerformanceNoteWorkoutViewSets, basename="performance")
 
+
 urlpatterns = router.urls
+
+urlpatterns += [
+    path('user-routine/', views.RoutineProductUser.as_view(), name="routine-user" ),
+]

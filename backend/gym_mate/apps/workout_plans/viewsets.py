@@ -1,6 +1,7 @@
 # Rest
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 # Apps Products
 from .models import (
     Routine,
@@ -23,7 +24,8 @@ from .serializers import (
     WorkoutSerializersRetrieve,
     WorkoutSerializerList
 )
-
+# apps User
+from apps.users.models import User
 
 class RoutineViewSets(viewsets.ModelViewSet):
     """Class representing a Routine ViewSets"""
@@ -32,10 +34,26 @@ class RoutineViewSets(viewsets.ModelViewSet):
     pagination_class = PaginationSerializer
     queryset = Routine.objects.all().order_by('-created')
     
-    
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        permission_classes = []
+
+        # Allow any user to perform list and retrieve actions
+        if self.action in ['list', 'retrieve']:
+            permission_classes.append(AllowAny)
+        else:
+            # Require that the user is a "coach" and is authenticated for other actions
+            if self.request.user and self.request.user.is_authenticated and self.request.user.is_coach:
+                permission_classes.append(IsAuthenticated)
+            else:
+                permission_classes.append(IsAdminUser)  
+
+        return [permission() for permission in permission_classes]
+
     def list(self, request, *args, **kwargs):
         queryset = Routine.objects.all().order_by('-created')
-
         serializer = RoutineSerializersList(queryset, many=True)
         return Response(serializer.data)
     
@@ -56,6 +74,7 @@ class RoutineViewSets(viewsets.ModelViewSet):
 class PerformanceNoteWorkoutViewSets(viewsets.ModelViewSet):
     """Class representing a Performance Note Workout ViewSets"""
 
+    permission_classes = [IsAuthenticated]
     serializer_class = PerformanceNoteWorkoutSerializers
     pagination_class = PaginationSerializer
     queryset = PerformanceNoteWorkout.objects.all().order_by('-created')
@@ -64,14 +83,16 @@ class PerformanceNoteWorkoutViewSets(viewsets.ModelViewSet):
 class CommentsRoutineViewSets(viewsets.ModelViewSet):
     """Class representing a Comments Routine ViewSets"""
 
+    permission_classes = [IsAuthenticated]
     serializer_class = CommentsRoutineSerializers
     pagination_class = PaginationSerializer
     queryset = CommentsRoutine.objects.all().order_by('-created')
-
+    
 
 class RoutineAsignationViewSets(viewsets.ModelViewSet):
     """Class representing a  Routine Asignation ViewSets"""
 
+    permission_classes = [IsAuthenticated]
     serializer_class = RoutineAsignationSerializers
     pagination_class = PaginationSerializer
     queryset = RoutineAsignation.objects.all()
@@ -80,6 +101,7 @@ class RoutineAsignationViewSets(viewsets.ModelViewSet):
 class RoutineRatingViewSets(viewsets.ModelViewSet):
     """Class representing a  Routine Ratings ViewSets"""
 
+    permission_classes = [IsAuthenticated]
     serializer_class = RoutineRatingSerializers
     pagination_class = PaginationSerializer
     queryset = RoutineRating.objects.all().order_by('-created')

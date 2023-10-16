@@ -1,8 +1,13 @@
 # Django
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.conf import settings
 # Model Utils
 from model_utils.models import TimeStampedModel
+# Managers
+from .managers import RoutineManager
+# Apss User
+from apps.users.models import User
 
 
 class Routine(TimeStampedModel):
@@ -11,14 +16,16 @@ class Routine(TimeStampedModel):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=256)
     is_paid = models.BooleanField(default=False)
-    # id_user =
+    id_user = models.ForeignKey( settings.AUTH_USER_MODEL, related_name="user", on_delete=models.CASCADE)
+    
+    objects = RoutineManager()
     
     class Meta:
         verbose_name = 'Routine'
         verbose_name_plural = 'Routine'
 
     def __str__(self):
-        return str(self.title)
+        return  str(self.id) + ' - ' + str(self.title)  + ' - ' + str(self.id_user)
 
 
 class CommentsRoutine(TimeStampedModel):
@@ -26,7 +33,7 @@ class CommentsRoutine(TimeStampedModel):
 
     text = models.CharField(max_length=256)
     id_routine = models.ForeignKey(Routine, related_name="comment", on_delete=models.CASCADE)
-    # id_user =
+    id_user = models.ForeignKey( settings.AUTH_USER_MODEL, related_name="userComment", on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = 'Comment Routine'
@@ -39,7 +46,7 @@ class CommentsRoutine(TimeStampedModel):
 class RoutineAsignation(models.Model):
     """Class representing a Routine Asignation"""
 
-    # id_user =
+    id_user = models.ForeignKey( settings.AUTH_USER_MODEL, related_name="userAsignation", on_delete=models.CASCADE)
     id_routine = models.ForeignKey(Routine, related_name="asignation", on_delete=models.CASCADE)
 
     class Meta:
@@ -55,7 +62,7 @@ class RoutineRating(TimeStampedModel):
 
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     text = models.CharField(max_length=256)
-    # id_user =
+    id_user = models.ForeignKey( settings.AUTH_USER_MODEL, related_name="userReating", on_delete=models.CASCADE)
     id_routine = models.ForeignKey(Routine, related_name="reating", on_delete=models.CASCADE)
 
     class Meta:

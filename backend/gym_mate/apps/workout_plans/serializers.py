@@ -74,6 +74,7 @@ class RoutineSerializersRetrive(serializers.ModelSerializer):
             "title",
             "description",
             "is_paid",
+            "id_user",
             "count_comment",
             "count_asignation",
             "count_reating",
@@ -122,10 +123,12 @@ class RoutineSerializersList(serializers.ModelSerializer):
             "title",
             "description",
             "is_paid",
+            "id_user",
             "comment",
             "asignation",
             "reating",
-            "daysroutine"
+            "daysroutine",
+            
         ]
     def get_comment(self, obj):
         return obj.comment.all().count()
@@ -156,6 +159,7 @@ class RoutineSerializers(serializers.ModelSerializer):
             "title",
             "description",
             "is_paid",
+            "id_user",
         ]
 
 
