@@ -1,6 +1,8 @@
 from apps.users.models import User 
 from rest_framework import serializers 
 
+from django.contrib.auth.hashers import check_password
+
 class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
@@ -18,9 +20,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def validate_password(self, value):
         confirm_password = self.initial_data.get('confirm_password')
         
-        #si passwords son distintos, error
-        if value != confirm_password:
-            raise serializers.ValidationError('passwords do not match') 
+        if confirm_password:
+            #si passwords son distintos, error
+            if value != confirm_password:
+                raise serializers.ValidationError('passwords do not match') 
         return value
         
     #Modificar el metodo create para encriptar password desde el metodo del modelo user create_user
@@ -31,10 +34,26 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
     
     
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+        
+    def validate_password(self, value):
+        email = self.initial_data.get('email')
+        print(email)
+        try:
+            user = User.objects.get(email=email)
+            if not check_password(value, user.password):
+                raise serializers.ValidationError("Invalid password")
+        except User.DoesNotExist:
+            raise serializers.ValidationError("User not found")
+        return value
+    
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
-        exclude = ('created_at', 'is_superuser') 
+        exclude = ('password','created_at', 'is_superuser') 
         
         
     

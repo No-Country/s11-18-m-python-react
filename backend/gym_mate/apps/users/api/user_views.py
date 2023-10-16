@@ -10,13 +10,13 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from apps.users.authenticate import CustomTokenAuthentication
 
 
-from .user_serializers import UserTokenSerializer, UserRegisterSerializer, UserDetailSerializer
+from .user_serializers import UserTokenSerializer, UserRegisterSerializer, UserDetailSerializer, UserLoginSerializer
 
 
 # REGISTRO
 class UserRegister(APIView):
     
-    #Enviamos parametros por POST
+    #Enviamos campos register por POST
     def post(self, request):
         
         #validacion de password frontend
@@ -31,26 +31,25 @@ class UserRegister(APIView):
             return Response(user_serializer.errors)        
     
         return Response({
-            'Token': token.key,
-            'User creado': user_serializer.data
-        })
+            'token': token.key,
+            'user': user_serializer.data
+        }, status=status.HTTP_201_CREATED)
 
 
 # LOGIN
-class UserLogin(ObtainAuthToken):
-    
-    #aca llegan usuario y contraseña mediante POST
-    def post(self,request, *args, **kwargs):
+class UserLogin(APIView):
+  
+    # Enviamos campos login por POST
+    def post(self,request):
         
-        login_serializer = self.serializer_class(data = request.data, context = {'request':request})
+        login_serializer = UserLoginSerializer(data = request.data)
 
         if login_serializer.is_valid():
             print('Paso validacion')
             
             #obtenemos el usuario mediante validate_data
-            print(login_serializer.validated_data['user'])
-            
-            user = login_serializer.validated_data['user']
+            email = login_serializer.validated_data['email']
+            user = User.objects.filter(email = email).first()
             
             user_serializer = UserTokenSerializer(user)
             
@@ -61,7 +60,7 @@ class UserLogin(ObtainAuthToken):
                 return Response({
                     'token':token.key,
                     'user': user_serializer.data
-                })
+                }, status=status.HTTP_202_ACCEPTED)
     
             #si el token ya existe entonces eliminamos y volvemos a crear
             else:
@@ -70,10 +69,10 @@ class UserLogin(ObtainAuthToken):
                 return Response({
                     'token':token.key,
                     'user': user_serializer.data
-                })
+                }, status=status.HTTP_202_ACCEPTED)
     
         else:
-            return Response({'error': 'invalid username or password'})
+            return Response({"error":"not valid"}, status=status.HTTP_400_BAD_REQUEST)
         
         
 # LOGOUT
@@ -84,13 +83,14 @@ class UserLogout(APIView):
     
     def post(self, request):
         
-    
-        token = request.auth
-        token_key = token.key 
-            
+        #request.auth posible usando el Token de rest_framework.authtoken
+        #token = request.auth
+      
+        #obtenemos token del user autenticado
+        token = Token.objects.filter(user = request.user).first()
         token.delete()
             
-        return Response({"Logout succesfly"})
+        return Response({"message":"Logout succesfly"}, status=status.HTTP_200_OK)
         
     
 # DETALLES USER
@@ -105,4 +105,6 @@ class UserDetailAPIview(APIView):
         
         user_serializer = UserDetailSerializer(user)
         
-        return Response({'user':user_serializer.data})
+        return Response({
+            'user':user_serializer.data
+        }, status=status.HTTP_200_OK)
