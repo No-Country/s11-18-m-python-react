@@ -6,17 +6,58 @@ from django.conf import settings
 from model_utils.models import TimeStampedModel
 # Managers
 from .managers import RoutineManager
-# Apss User
-from apps.users.models import User
 
 
+class Categories(models.Model):
+    
+    name = models.CharField('Name', max_length=50)
+    
+    class Meta:
+        verbose_name = 'Categorie'
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return  str(self.name) 
+
+    
 class Routine(TimeStampedModel):
     """Class representing a Routine"""
 
+    # Difficulties
+    DIFFICULT = 'D'
+    MEDIUIM = 'I'
+    EASY = 'F'
+
+    DIFFICULTIES_CHOICES = [
+        (DIFFICULT, 'Dificil'),
+        (MEDIUIM, 'Intermedio'),
+        (EASY, 'Facil'),
+    ]
+
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=256)
+    difficulty = models.CharField(
+        max_length=1, 
+        choices=DIFFICULTIES_CHOICES, 
+    )
+    categorie = models.ManyToManyField(
+        Categories , 
+        related_name="routineCategorie", 
+    )
     is_paid = models.BooleanField(default=False)
-    id_user = models.ForeignKey( settings.AUTH_USER_MODEL, related_name="user", on_delete=models.CASCADE)
+    price = models.DecimalField(
+        'Precio', 
+        max_digits=5, 
+        decimal_places=2, 
+        blank= True,
+        null= True
+    ) 
+    is_user_premium = models.BooleanField(default=False)
+    id_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        related_name="user", 
+        on_delete=models.CASCADE
+    )
     
     objects = RoutineManager()
     

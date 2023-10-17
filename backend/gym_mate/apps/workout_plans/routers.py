@@ -10,6 +10,7 @@ from . import views
 router = DefaultRouter()
 
 router.register(r'routine', viewsets.RoutineViewSets, basename="Routine")
+router.register(r'category', viewsets.CategoriesRoutineViewSets, basename="Category")
 router.register(r'comment-routine', viewsets.CommentsRoutineViewSets, basename="comment")
 router.register(r'asignation', viewsets.RoutineAsignationViewSets, basename="asignation")
 router.register(r'rating', viewsets.RoutineRatingViewSets, basename="rating")
@@ -20,5 +21,8 @@ router.register(r'performance-note-workout', viewsets.PerformanceNoteWorkoutView
 urlpatterns = router.urls
 
 urlpatterns += [
-    path('user-routine/', views.RoutineProductUser.as_view(), name="routine-user" ),
+    # Filter  Free Paid Premium
+    path('filter/routine/free-paid-premium/',views.TypeOfRoutineListAPIView.as_view(), name="routine-filter-free-paid-premium" ),
+    # Filter categorie  difficulty
+    path('filter/routine/',views.FilterRoutinesByCategoriesListAPIView.as_view(), name="routine-filter" ),
 ]

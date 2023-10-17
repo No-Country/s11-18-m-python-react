@@ -10,7 +10,8 @@ from .models import (
     Workout,
     PerformanceNoteWorkout,
     WorkoutImage,
-    WorkoutVideo
+    WorkoutVideo,
+    Categories
     )
 
 
@@ -73,6 +74,9 @@ class RoutineSerializersRetrive(serializers.ModelSerializer):
             "created",
             "title",
             "description",
+            "difficulty",
+            "categorie",
+            "price",
             "is_paid",
             "id_user",
             "count_comment",
@@ -114,6 +118,7 @@ class RoutineSerializersList(serializers.ModelSerializer):
     asignation = serializers.SerializerMethodField()
     reating = serializers.SerializerMethodField()
     daysroutine = serializers.SerializerMethodField()
+    difficulty = serializers.SerializerMethodField()
     
     class Meta:
         model = Routine
@@ -123,13 +128,17 @@ class RoutineSerializersList(serializers.ModelSerializer):
             "title",
             "description",
             "is_paid",
+            "price",
+            "categorie",
+            "difficulty",
             "id_user",
             "comment",
             "asignation",
             "reating",
-            "daysroutine",
-            
+            "daysroutine",   
         ]
+    def get_difficulty(self, obj):
+        return dict(Routine.DIFFICULTIES_CHOICES)[obj.difficulty]        
     def get_comment(self, obj):
         return obj.comment.all().count()
     def get_asignation(self, obj):
@@ -158,8 +167,12 @@ class RoutineSerializers(serializers.ModelSerializer):
             "created",
             "title",
             "description",
+            "difficulty",
+            "categorie",
             "is_paid",
+            "price",
             "id_user",
+            "is_user_premium",
         ]
 
 
@@ -222,4 +235,17 @@ class WorkoutSerializersRetrieve(serializers.ModelSerializer):
             "videos",
             "day_id",
             "routine_id"
+        ]
+
+
+class CategoriesRoutineSerializers(serializers.ModelSerializer):
+    """Class representing a  Comments Note Routine Serializers"""
+    routineCategorie = RoutineSerializersList(many=True)
+    
+    class Meta:
+        model = Categories
+        fields = [
+            "id",
+            "name",
+            "routineCategorie"
         ]

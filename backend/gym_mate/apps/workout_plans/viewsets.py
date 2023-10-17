@@ -9,7 +9,8 @@ from .models import (
     CommentsRoutine,
     RoutineAsignation,
     RoutineRating,
-    Workout
+    Workout,
+    Categories
 )
 from .serializers import (
     RoutineSerializers,
@@ -22,7 +23,8 @@ from .serializers import (
     RoutineSerializersRetrive,
     WorkoutSerializer,
     WorkoutSerializersRetrieve,
-    WorkoutSerializerList
+    WorkoutSerializerList,
+    CategoriesRoutineSerializers
 )
 # apps User
 from apps.users.models import User
@@ -69,8 +71,29 @@ class RoutineViewSets(viewsets.ModelViewSet):
         instance = self.get_object()
         serializer = RoutineSerializersRetrive(instance)
         return Response(serializer.data)
-    
-    
+   
+   
+class CategoriesRoutineViewSets(viewsets.ModelViewSet):
+    """Class representing a Performance  Categories ViewSets"""
+
+    serializer_class = CategoriesRoutineSerializers
+    pagination_class = PaginationSerializer
+    queryset = Categories.objects.all()
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        permission_classes = []
+
+        # Allow any user to perform list and retrieve actions
+        if self.action in ['list', 'retrieve']:
+            permission_classes.append(AllowAny)
+        else:
+            permission_classes.append(IsAdminUser)
+            
+        return [permission() for permission in permission_classes]
+
+                
 class PerformanceNoteWorkoutViewSets(viewsets.ModelViewSet):
     """Class representing a Performance Note Workout ViewSets"""
 
