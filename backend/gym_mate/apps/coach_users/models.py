@@ -14,7 +14,7 @@ class Rating_Coach(models.Model):
 
 
 class Verification_Coach(models.Model):
-    degree = models.CharField()
+    degree = models.CharField(max_length=50)
     academic_institution = models.CharField()
     url_certificate = models.CharField()
 
@@ -22,7 +22,7 @@ class Verification_Coach(models.Model):
 
 
 class Gym_Subscription(models.Model):
-    name_gym = models.CharField()
+    name_gym = models.CharField(max_length=50)
     start_subscription = models.DateField()
     end_subscription = models.DateField()
 
@@ -30,7 +30,7 @@ class Gym_Subscription(models.Model):
 
 
 class Coaching(models.Model):
-    type_coaching = models.CharField()
+    type_coaching = models.CharField(max_length=50)
 
 
 class Junction_User_Coach(models.Model):
