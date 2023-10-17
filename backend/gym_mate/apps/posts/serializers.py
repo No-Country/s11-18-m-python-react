@@ -5,25 +5,14 @@ from .models import *
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posts
-        fields = ["content"]
+        fields = ["content",'image_url','video_url','user_id']
 
     def create(self, validated_data):
         # validated_data['user'] = self.context['request'].user
         post = Posts.objects.create(**validated_data)
         post.save()
         return post      
-
-
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ImagePost
-        fields = ("__all__")
-
-class VideoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = VideoPost
-        fields = ("__all__")
-
+    
 class CommmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentPost

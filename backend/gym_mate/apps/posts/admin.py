@@ -3,8 +3,6 @@ from .models import *
 
 models_to_register = [
     Posts,
-    ImagePost,
-    VideoPost,
     CommentPost,
     Junction_likes,
     Junction_repost
