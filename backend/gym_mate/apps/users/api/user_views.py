@@ -19,7 +19,6 @@ class UserRegister(APIView):
     #Enviamos campos register por POST
     def post(self, request):
         
-        #validacion de password frontend
         user_serializer = UserRegisterSerializer(data = request.data)
         
         if user_serializer.is_valid():

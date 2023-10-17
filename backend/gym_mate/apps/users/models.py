@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-
+from gym_mate.settings.base import AUTH_USER_MODEL 
 
 #Diet model
 class Diet(models.Model):
@@ -8,6 +8,11 @@ class Diet(models.Model):
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
+#Seguidores
+class Followers(models.Model):
+    follower = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='follower')
+    followed = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_user')
+    
 
 # Creamos el UserManager personalizado con los metodos para crear
 class UserManager(BaseUserManager):
