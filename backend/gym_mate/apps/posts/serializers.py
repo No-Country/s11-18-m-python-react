@@ -13,10 +13,16 @@ class PostSerializer(serializers.ModelSerializer):
         post.save()
         return post      
     
-class CommmentSerializer(serializers.ModelSerializer):
+class CommmentPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentPost
-        fields = ("__all__")
+        fields = ("comment", "image_url", "video_url", "user_id")
+
+    def create(self, validated_data):
+        comment = CommentPost.objects.create(**validated_data)
+        comment.save()
+
+        return comment
 
 
 class PaginationSerializer(pagination.PageNumberPagination):

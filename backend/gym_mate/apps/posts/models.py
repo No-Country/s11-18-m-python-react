@@ -10,8 +10,15 @@ class Posts(TimeStampedModel):
 
 class CommentPost(TimeStampedModel):
     content = models.CharField(max_length=256)
-    post_id =  models.ForeignKey(Posts, on_delete=models.CASCADE)
+    post_id =  models.ForeignKey(Posts, related_name="comment", on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete = models.CASCADE,null=True)
+
+    class Meta:
+        verbose_name = 'Post Comment'
+        verbose_name_plural = 'Posts Comments'
+
+    def __str__(self):
+        return str(self.text)
 
 class Junction_likes(models.Model):
     post_id = models.ForeignKey(Posts, on_delete=models.CASCADE)
