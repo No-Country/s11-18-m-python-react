@@ -61,20 +61,24 @@ class UserLoginSerializer(serializers.Serializer):
         user.last_login = timezone.now()
         user.save()
         return data
-    
+
+#UserMedetail, edit   
 class UserMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
         exclude = ('last_login', 'is_staff','is_active', 'date_joined', 'password','created_at', 'is_superuser', 'groups', 'user_permissions',) 
         
+#Userviewperfil
+class UserViewPerfil(serializers.ModelSerializer):
+    class Meta:
+        model = User 
+        fields = ('username', 'first_name', 'last_name', 'image_photo', 'bio')
+
 class UserDetailCoachSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
         fields = ('username', 'first_name', 'last_name', 'is_coach', 'image_photo', 'bio')
     
-class UserDetailGeneralSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User 
-        fields = ('username', 'first_name', 'last_name', 'image_photo', 'bio')
+
         
     
