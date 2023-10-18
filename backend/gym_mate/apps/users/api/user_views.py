@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from apps.users.authenticate import CustomTokenAuthentication
 
 
-from .user_serializers import UserTokenSerializer, UserRegisterSerializer, UserDetailSerializer, UserLoginSerializer
+from .user_serializers import UserTokenSerializer, UserRegisterSerializer, UserMeSerializer, UserLoginSerializer
 
 
 # REGISTRO
@@ -102,7 +102,7 @@ class UserMeAPIview(APIView):
         
         user = request.user
         
-        user_serializer = UserDetailSerializer(user)
+        user_serializer = UserMeSerializer(user)
         
         return Response({
             'user':user_serializer.data
