@@ -1,7 +1,7 @@
 from apps.users.models import User 
 from rest_framework import serializers 
-from gym_mate.settings.base import AUTH_USER_MODEL
 
+from django.utils import timezone
 from django.contrib.auth.hashers import check_password
 
 class UserTokenSerializer(serializers.ModelSerializer):
@@ -34,11 +34,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         # Utiliza el método create_user del modelo personalizado de usuario para crear un usuario
         
         user = User.objects.create_user(**validated_data, password = password)
+        user.last_login = timezone.now()
         user.save()
         return user
-    
-  #  def last_login(self, user):
-   #     user = User.objects.
     
     
 class UserLoginSerializer(serializers.Serializer):
@@ -50,19 +48,33 @@ class UserLoginSerializer(serializers.Serializer):
         email = self.initial_data.get('email')
         print(email)
         try:
-            user = AUTH_USER_MODEL.objects.get(email=email)
+            user = User.objects.get(email=email)
             if not check_password(value, user.password):
                 raise serializers.ValidationError("Invalid password")
         except User.DoesNotExist:
             raise serializers.ValidationError("User not found")
-        print(user.is_coach)
-        
         return value
+    
+    def validate(self, data):
+        email = data['email']
+        user = User.objects.filter(email = email).first()
+        user.last_login = timezone.now()
+        user.save()
+        return data
     
 class UserMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
-        exclude = ('password','created_at', 'is_superuser') 
+        exclude = ('last_login', 'is_staff','is_active', 'date_joined', 'password','created_at', 'is_superuser', 'groups', 'user_permissions',) 
         
+class UserDetailCoachSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User 
+        fields = ('username', 'first_name', 'last_name', 'is_coach', 'image_photo', 'bio')
+    
+class UserDetailGeneralSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User 
+        fields = ('username', 'first_name', 'last_name', 'image_photo', 'bio')
         
     
