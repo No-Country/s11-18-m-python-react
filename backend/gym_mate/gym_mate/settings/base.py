@@ -26,12 +26,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 with open("secret.json") as f:
     secret = json.loads(f.read())
 
+
 def get_secret(secret_name, secrets=secret):
     try:
         return secrets[secret_name]
     except:
         msg = "la variable %s no existe" % secret_name
         raise ImproperlyConfigured(msg)
+
 
 SECRET_KEY = get_secret('SECRET_KEY')
 
