@@ -30,7 +30,7 @@ module.exports = {
         "Blanco" : "#FCFCFC",
         "Grises/100" : "#535353",
         "Grises/200" : "#a5a5a5",
-        "Grises/300" : "D8D8D8"
+        "Grises/300" : "#D8D8D8"
        }
     },
   },
