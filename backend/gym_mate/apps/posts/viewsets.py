@@ -34,17 +34,18 @@ class PostView(viewsets.ModelViewSet):
     
 class CommentViewSet(viewsets.ModelViewSet):
 
-    serializer_class = CommmentPostSerializer
+    serializer_class = CommentPostSerializer
     pagination_class = PaginationSerializer
-    queryset = Posts.objects.all().order_by('-created')
+    queryset = CommentPost.objects.all().order_by('-created')
+
 
     #def create(self, request, *args, **kwargs):
-    #    serializer = CommmentPostSerializer(data = request.data)
+    #    serializer = CommentPostSerializer(data = request.data)
     #    if serializer.is_valid():
     #        comment = serializer.save()
     #        return Response({
     #            'message': 'Comment created',
-    #            'Comment': CommmentPostSerializer(comment).data
+    #            'Comment': CommentPostSerializer(comment).data
     #        }, status=status.HTTP_201_CREATED)
-    #   else:
+    #    else:
     #        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 

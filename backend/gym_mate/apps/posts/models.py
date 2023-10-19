@@ -9,16 +9,18 @@ class Posts(TimeStampedModel):
     video_url = models.FileField(upload_to='posts/videos',blank= True, null= True)
 
 class CommentPost(TimeStampedModel):
-    content = models.CharField(max_length=256)
-    post_id =  models.ForeignKey(Posts, related_name="comment", on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete = models.CASCADE,null=True)
+    comment_post_id = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name="comments")
+    comment_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_content = models.CharField(max_length=256, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    #post_id_comment =  models.ForeignKey(Posts, related_name="comment", on_delete=models.CASCADE)
+    #user_id_comment = models.ForeignKey(User, on_delete = models.CASCADE,null=True)
 
     class Meta:
-        verbose_name = 'Post Comment'
-        verbose_name_plural = 'Posts Comments'
+        ordering = ('created_at',)
 
     def __str__(self):
-        return str(self.text)
+        return f'Comment by {self.comment_user_id} on {self.comment_post_id}'
 
 class Junction_likes(models.Model):
     post_id = models.ForeignKey(Posts, on_delete=models.CASCADE)

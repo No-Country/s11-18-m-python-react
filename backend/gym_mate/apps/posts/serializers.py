@@ -1,5 +1,5 @@
 from rest_framework import serializers, pagination
-from .models import *
+from .models import Posts, CommentPost
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -13,16 +13,25 @@ class PostSerializer(serializers.ModelSerializer):
         post.save()
         return post      
     
-class CommmentPostSerializer(serializers.ModelSerializer):
+    
+class CommentPostSerializer(serializers.ModelSerializer):
+    comment_user_id = serializers.SerializerMethodField()
+    #reply_count = serializers.SerializerMethodField()
+    #replies = serializers.SerializerMethodField()
+
     class Meta:
         model = CommentPost
-        fields = ("comment", "image_url", "video_url", "user_id")
+        fields = ["comment_post_id", "comment_user_id", "comment_content", "created_at",]
 
     def create(self, validated_data):
         comment = CommentPost.objects.create(**validated_data)
         comment.save()
 
         return comment
+
+    def get_comment_user_id(self, obj):
+        return obj.comment_user_id.username
+
 
 
 class PaginationSerializer(pagination.PageNumberPagination):
