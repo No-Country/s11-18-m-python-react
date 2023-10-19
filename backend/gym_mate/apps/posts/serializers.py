@@ -43,8 +43,7 @@ class LikeSerializer(serializers.ModelSerializer):
             return existing_like
         else:
             like = Junction_likes.objects.create(**validated_data)               
-            return like
-        c
+            return like        
 
 class PaginationSerializer(pagination.PageNumberPagination):
 
