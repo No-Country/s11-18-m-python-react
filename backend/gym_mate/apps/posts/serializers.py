@@ -21,7 +21,7 @@ class CommmentPostSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         comment = CommentPost.objects.create(**validated_data)
-        comment.save()
+        comment.save()               
         return comment
     
     #def get_comment_user_id(self, obj):
@@ -42,9 +42,29 @@ class LikeSerializer(serializers.ModelSerializer):
             existing_like.save(update_fields=['total_likes'])
             return existing_like
         else:
-            like = Junction_likes.objects.create(**validated_data)               
-            return like
-        c
+            like = Junction_likes.objects.create(**validated_data)
+            like.save()  
+            return like    
+
+class RepostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Junction_repost
+        fields = ["total_repost", "repost_post", "repost_user"]
+
+    def create(self, validated_data):
+        user = validated_data['repost_user']
+        post = validated_data['repost_post']
+        existing_repost = Junction_repost.objects.filter(repost_user=user, repost_post=post).first()     
+
+        if existing_repost: 
+            existing_repost.total_repost += 1
+            existing_repost.save(update_fields=['total_repost'])
+            return existing_repost
+        else:
+            repost = Junction_repost.objects.create(**validated_data)
+            repost.save()  
+            return repost 
+
 
 class PaginationSerializer(pagination.PageNumberPagination):
 
