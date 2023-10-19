@@ -114,10 +114,21 @@ class RoutineRating(TimeStampedModel):
         return str(self.rating)
 
 
-class WeekDays(models.Model):
-    """Class representing a Week Days"""
+class Set(TimeStampedModel):
+    """Class representing a Set of workouts"""
+    set_name = models.CharField(max_length=50, blank=False, null=False)
+    id_routine = models.ForeignKey(Routine, related_name="routine_sets", on_delete=models.CASCADE)
 
-    day_name = models.CharField(max_length=50)
+    def __str__(self):
+        return str(self.set_name)
+
+
+class WeekDay(models.Model):
+    """Class representing a Week Day"""
+
+    day_name = models.CharField(max_length=50, blank=False, null=False)
+    id_routine = models.ForeignKey(Routine, related_name="routine_days", on_delete=models.CASCADE)
+    id_set = models.ForeignKey(Set, related_name="day_set", null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Week Day'
@@ -136,6 +147,7 @@ class Workout(TimeStampedModel):
     series = models.IntegerField(validators=[MinValueValidator(1)])
     weight_kg = models.IntegerField(validators=[MinValueValidator(0)])
     rest_mins = models.IntegerField(validators=[MinValueValidator(0)])
+    id_set = models.ForeignKey(Set, related_name="workout_set", null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Workout'
@@ -157,21 +169,6 @@ class PerformanceNoteWorkout(TimeStampedModel):
 
     def __str__(self):
         return str(self.text)
-
-
-class Junction_DaysRoutineWorkout(models.Model):
-    """Class representing a Junction Days Routine Workout"""
-
-    id_day = models.ForeignKey(WeekDays,related_name="days", on_delete=models.CASCADE)
-    id_routine = models.ForeignKey(Routine,related_name="daysroutine", on_delete=models.CASCADE)
-    id_workout = models.ForeignKey(Workout, related_name="workout", on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Day'
-        verbose_name_plural = 'Days'
-
-    def __str__(self):
-        return str(self.id_day)
 
 
 class WorkoutImage(TimeStampedModel):

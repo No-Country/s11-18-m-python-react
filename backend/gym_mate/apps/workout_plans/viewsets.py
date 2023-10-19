@@ -10,6 +10,7 @@ from .models import (
     RoutineAsignation,
     RoutineRating,
     Workout,
+    Set,
     Categories
 )
 from .serializers import (
@@ -21,6 +22,9 @@ from .serializers import (
     RoutineRatingSerializers,
     RoutineSerializersList,
     RoutineSerializersRetrive,
+    SetSerializer,
+    SetSerializerList,
+    SetSerializerRetrieve,
     WorkoutSerializer,
     WorkoutSerializersRetrieve,
     WorkoutSerializerList,
@@ -153,4 +157,29 @@ class WorkoutViewSets(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = WorkoutSerializersRetrieve(instance)
+        return Response(serializer.data)
+
+
+class SetViewSets(viewsets.ModelViewSet):
+    """ Class representing a Set viewset """
+    serializer_class = SetSerializer
+    pagination_class = PaginationSerializer
+    queryset = Set.objects.all().order_by('-created')
+
+    def list(self, request, *args, **kwargs):
+        queryset = Set.objects.all().order_by('-created')
+
+        serializer = SetSerializerList(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        serializer = SetSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, headers=headers)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = SetSerializerRetrieve(instance)
         return Response(serializer.data)
