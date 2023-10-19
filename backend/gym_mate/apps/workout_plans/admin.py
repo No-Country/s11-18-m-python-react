@@ -14,7 +14,8 @@ models_to_register = [
     Junction_DaysRoutineWorkout,
     WorkoutImage,
     WorkoutVideo,
-    Categories
+    Categories,
+    RoutineFavorite
 ]
 
 admin.site.register(models_to_register)

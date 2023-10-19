@@ -3,26 +3,9 @@ from django.db import models
 class RoutineManager(models.Manager):
     
     
-    # def type_routine(self, routine):
-        
-    #     if routine == 'premium':
-    #         paid = True
-    #         premium = True
-    #     elif routine == 'pagas':
-    #         paid = True
-    #         premium = False
-    #     else:
-    #         paid = False
-    #         premium = False
-            
-    #     return self.filter(
-    #         is_paid =  paid,
-    #         is_user_premium = premium
-    #     ).order_by('created')
-
     def type_routine(self, **filters):
         
-        if filters["tipo"] == 'premium':
+        if filters["tipo"].capitalize() == 'premium':
             paid = True
             premium = True
             return self.filter(
@@ -30,7 +13,7 @@ class RoutineManager(models.Manager):
             is_user_premium = premium
             ).order_by('created')
             
-        elif filters["tipo"] == 'pagas':
+        elif filters["tipo"].capitalize() == 'pagas':
             paid = True
             premium = False
             return self.filter(
@@ -38,7 +21,7 @@ class RoutineManager(models.Manager):
             is_user_premium = premium
             ).order_by('created')
             
-        elif filters["tipo"] == 'free':
+        elif filters["tipo"].capitalize() == 'free':
             paid = False
             premium = False
             return self.filter(
@@ -54,20 +37,24 @@ class RoutineManager(models.Manager):
     def filter_ruotine(self, **filters):
         
         if filters["categoria"] and filters["dificultad"]:
+            
             return self.filter(
-                categorie__name = filters["categoria"],
-                difficulty = filters["dificultad"],
+                categorie__name__icontains = filters["categoria"].capitalize(),
+                difficulty__icontains = filters["dificultad"].capitalize(),
             ).order_by('created')
             
         elif filters["categoria"]:
             return self.filter(
-                categorie__name = filters["categoria"],
+                categorie__name__icontains = filters["categoria"].capitalize(),
             ).order_by('created')
             
         elif filters["dificultad"]:
                 return self.filter(
-                difficulty = filters["dificultad"],
+                difficulty__icontains = filters["dificultad"].capitalize(),
             ).order_by('created')
                 
         else:
             return self.all().order_by('created')
+        
+
+

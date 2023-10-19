@@ -35,6 +35,7 @@ class Routine(TimeStampedModel):
     ]
 
     title = models.CharField(max_length=50)
+    front_page = models.ImageField( 'img', upload_to='routina', blank=True)
     description = models.CharField(max_length=256)
     difficulty = models.CharField(
         max_length=1, 
@@ -74,7 +75,13 @@ class CommentsRoutine(TimeStampedModel):
 
     text = models.CharField(max_length=256)
     id_routine = models.ForeignKey(Routine, related_name="comment", on_delete=models.CASCADE)
-    id_user = models.ForeignKey( settings.AUTH_USER_MODEL, related_name="userComment", on_delete=models.CASCADE)
+    id_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        related_name="userComment", 
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+        )
     
     class Meta:
         verbose_name = 'Comment Routine'
@@ -201,3 +208,20 @@ class WorkoutVideo(TimeStampedModel):
 
     def __str__(self):
         return str(self.url_video)
+
+
+class RoutineFavorite(models.Model):
+    
+    """Class representing a Routine Favorite"""
+
+    id_user = models.ForeignKey( settings.AUTH_USER_MODEL, related_name="userFavorite", on_delete=models.CASCADE)
+    id_routine = models.ForeignKey(Routine, related_name="favorite", on_delete=models.CASCADE)
+    
+
+
+    class Meta:
+        verbose_name = 'Routine Favorite'
+        verbose_name_plural = 'Routine Favorites'
+
+    def __str__(self):
+        return str(self.id_routine)

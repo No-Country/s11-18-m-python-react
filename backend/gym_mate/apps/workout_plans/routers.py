@@ -10,6 +10,7 @@ from . import views
 router = DefaultRouter()
 
 router.register(r'routine', viewsets.RoutineViewSets, basename="Routine")
+router.register(r'favorite', viewsets.RoutineFavoriteViewSets, basename="Favorite")
 router.register(r'category', viewsets.CategoriesRoutineViewSets, basename="Category")
 router.register(r'comment-routine', viewsets.CommentsRoutineViewSets, basename="comment")
 router.register(r'asignation', viewsets.RoutineAsignationViewSets, basename="asignation")
@@ -21,8 +22,10 @@ router.register(r'performance-note-workout', viewsets.PerformanceNoteWorkoutView
 urlpatterns = router.urls
 
 urlpatterns += [
-    # Filter  Free Paid Premium
+    # Filter  Free Paid Premium ?tipo=pagas ?tipo=pagas - ?tipo=premium - ?tipo=free   (If no parameter is sent, it returns all routines)
     path('filter/routine/free-paid-premium/',views.TypeOfRoutineListAPIView.as_view(), name="routine-filter-free-paid-premium" ),
-    # Filter categorie  difficulty
+    # Filter categorie  difficulty ?categoria= & dificultad= - ?categoria= - ?dificultad= (If no parameter is sent, it returns all routines)
     path('filter/routine/',views.FilterRoutinesByCategoriesListAPIView.as_view(), name="routine-filter" ),
+    # Filter the coach routines
+    path('filter/routine/coach/',views.FilterRoutinesByCoachListAPIView.as_view(), name="routine-filter" ),
 ]
