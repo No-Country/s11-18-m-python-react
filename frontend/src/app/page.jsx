@@ -1,11 +1,12 @@
+import CoachesDest from '@/components/Coaches/Coaches'
+import PostPage from '@/components/Posts/post'
 import Suscribite from '@/components/Suscribite/Suscribite'
-import Image from 'next/image'
-import Link from 'next/link'
 
 export default function Home() {
   return (
     <main>
     <Suscribite/>
+    <CoachesDest/>
     </main>
   )
 }
