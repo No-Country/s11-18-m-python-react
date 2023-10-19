@@ -15,6 +15,7 @@ class CommentPost(TimeStampedModel):
     comment_post =  models.ForeignKey(Posts, on_delete=models.CASCADE)
     comment_user = models.ForeignKey(User, on_delete = models.CASCADE)
     comment_total_comments = models.PositiveIntegerField(default = 0)
+    
     # def __str__(self):
     #     return f'Comment by {self.comment_user_id} on {self.comment_post_id}'
 
