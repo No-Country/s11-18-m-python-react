@@ -16,6 +16,7 @@ router.register(r'comment-routine', viewsets.CommentsRoutineViewSets, basename="
 router.register(r'asignation', viewsets.RoutineAsignationViewSets, basename="asignation")
 router.register(r'rating', viewsets.RoutineRatingViewSets, basename="rating")
 router.register(r'workout', viewsets.WorkoutViewSets, basename='Workout')
+router.register(r'set', viewsets.SetViewSets, basename='Set')
 router.register(r'performance-note-workout', viewsets.PerformanceNoteWorkoutViewSets, basename="performance")
 
 
