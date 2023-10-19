@@ -4,7 +4,7 @@ from apps.users.models import User
 
 class Posts(TimeStampedModel):
     content = models.CharField(max_length=256,blank=True)
-    user_id = models.ForeignKey(User, on_delete = models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete = models.CASCADE, null=True, related_name='user_posts')
     image_url = models.ImageField(upload_to='posts/img',blank= True, null= True)
     video_url = models.FileField(upload_to='posts/videos',blank= True, null= True)
 

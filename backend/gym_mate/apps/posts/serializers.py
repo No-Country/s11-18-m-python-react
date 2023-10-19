@@ -5,10 +5,10 @@ from .models import *
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posts
-        fields = ["content",'image_url','video_url','user_id']
+        fields = ('content','image_url','video_url','user_id')
 
     def create(self, validated_data):
-        # validated_data['user'] = self.context['request'].user
+        validated_data['user'] = self.context['request'].user
         post = Posts.objects.create(**validated_data)
         post.save()
         return post      

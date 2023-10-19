@@ -10,7 +10,13 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from apps.users.authenticate import CustomTokenAuthentication
 
 
-from .user_serializers import UserTokenSerializer, UserRegisterSerializer, UserMeSerializer, UserLoginSerializer
+from .user_serializers import (
+    UserTokenSerializer,
+    UserRegisterSerializer,
+    UserMeSerializer,
+    UserLoginSerializer,
+    UserViewPerfilSerializer
+)
 
 
 # REGISTRO
@@ -92,7 +98,7 @@ class UserLogout(APIView):
         return Response({"message":"Logout succesfly"}, status=status.HTTP_200_OK)
         
     
-# DETALLES USER
+# detalles user editar (DATOS PERSONALES)
 class UserMeAPIview(APIView):
     
     authentication_classes = [CustomTokenAuthentication]
@@ -107,3 +113,25 @@ class UserMeAPIview(APIView):
         return Response({
             'user':user_serializer.data
         }, status=status.HTTP_200_OK)
+        
+    #Falta path y put
+        
+# View perfil
+class UserViewPerfilAPIView(APIView):
+    
+    
+    def get(self, request, pk = None):
+        
+        if pk is not None:
+            user = User.objects.filter(pk = pk).first()
+            #user.follower.all()
+            user_serializer = UserViewPerfilSerializer(user)
+            
+        
+            return Response({
+                'user':user_serializer.data
+            }, status=status.HTTP_200_OK)
+                
+        return Response({
+        'error':'User not found'
+        })

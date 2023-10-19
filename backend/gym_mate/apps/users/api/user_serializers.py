@@ -1,8 +1,17 @@
 from apps.users.models import User 
 from rest_framework import serializers 
 
+from apps.posts.serializers import PostSerializer
+from apps.posts.models import Posts
+from apps.users.models import Followers
+
 from django.utils import timezone
 from django.contrib.auth.hashers import check_password
+
+class FollowersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Followers
+        fields = ('follower', 'followed')
 
 class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
@@ -62,17 +71,38 @@ class UserLoginSerializer(serializers.Serializer):
         user.save()
         return data
 
-#UserMedetail, edit   
+#UserMedetail, editar detalles   
 class UserMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
         exclude = ('last_login', 'is_staff','is_active', 'date_joined', 'password','created_at', 'is_superuser', 'groups', 'user_permissions',) 
         
-#Userviewperfil
-class UserViewPerfil(serializers.ModelSerializer):
+#Userviewperfil 
+class UserViewPerfilSerializer(serializers.ModelSerializer):
+    
+    posts = PostSerializer(many=True, read_only=True, source='user_posts')
+    followers_users = FollowersSerializer(many=True, read_only=True, source='followed_user')
+    followed_users = FollowersSerializer(many=True, read_only=True, source='follower')
     class Meta:
         model = User 
-        fields = ('username', 'first_name', 'last_name', 'image_photo', 'bio')
+        fields = ('id','username','first_name', 'last_name', 'bio', 'image_photo', 'posts', 'followers_users', 'followed_users')
+        
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+       
+        print(len(data.get('followers_users', [])))
+        
+        followers = data.get('followers_users',[])
+        followeds = data.get('followeds_users',[])
+        
+        count_followers = len(followers)
+        count_followeds = len(followeds)
+        
+        
+        data['followers_users'] = count_followers 
+        data['followed_users'] = count_followeds
+        
+        return data
 
 class UserDetailCoachSerializer(serializers.ModelSerializer):
     class Meta:
