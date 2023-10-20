@@ -60,7 +60,7 @@ class UserLoginSerializer(serializers.Serializer):
         
     def validate_password(self, value):
         email = self.initial_data.get('email')
-        print(email)
+        
         try:
             user = User.objects.get(email=email)
             if not check_password(value, user.password):
@@ -82,6 +82,12 @@ class UserMeSerializer(serializers.ModelSerializer):
         model = User 
         exclude = ('last_login', 'is_staff','is_active', 'date_joined', 'password','created_at', 'is_superuser', 'groups', 'user_permissions',) 
         
+    def validate_age(self, value):
+        if value <= 0:
+            raise serializers.ValidationError('Age can´t be 0')
+        
+        return value
+    
 #Userviewperfil 
 class UserViewPerfilSerializer(serializers.ModelSerializer):
     
