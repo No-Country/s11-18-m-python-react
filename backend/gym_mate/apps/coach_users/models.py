@@ -1,6 +1,6 @@
 from django.db import models
 from apps.users.models import User
-from backend.gym_mate.gym_mate.settings.base import AUTH_USER_MODEL
+from gym_mate.settings.base import AUTH_USER_MODEL
 
 
 #Coach models
