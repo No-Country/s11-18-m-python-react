@@ -1,7 +1,22 @@
 from apps.users.models import User 
 from rest_framework import serializers 
 
+from apps.posts.serializers import PostSerializer
+from apps.coach_users.models import Rating_Coach
+from apps.users.models import Followers
+
+from django.utils import timezone
 from django.contrib.auth.hashers import check_password
+
+class RatingCoachSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating_Coach 
+        fields = ('__all__')
+
+class FollowersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Followers
+        fields = ('follower', 'followed')
 
 class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,8 +43,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         
     #Modificar el metodo create para encriptar password desde el metodo del modelo user create_user
     def create(self, validated_data):
+        #eliminamos la password de validate_data(buena_practica que no quede en cache ni nada antes de ser nuevamente hash), para pasarlo nuevamente 
+        password = validated_data.pop('password')
         # Utiliza el método create_user del modelo personalizado de usuario para crear un usuario
-        user = User.objects.create_user(**validated_data)
+        
+        user = User.objects.create_user(**validated_data, password = password)
+        user.last_login = timezone.now()
         user.save()
         return user
     
@@ -41,7 +60,7 @@ class UserLoginSerializer(serializers.Serializer):
         
     def validate_password(self, value):
         email = self.initial_data.get('email')
-        print(email)
+        
         try:
             user = User.objects.get(email=email)
             if not check_password(value, user.password):
@@ -50,10 +69,66 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("User not found")
         return value
     
-class UserDetailSerializer(serializers.ModelSerializer):
+    def validate(self, data):
+        email = data['email']
+        user = User.objects.filter(email = email).first()
+        user.last_login = timezone.now()
+        user.save()
+        return data
+
+#UserMedetail, editar detalles   
+class UserMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
-        exclude = ('password','created_at', 'is_superuser') 
+        exclude = ('last_login', 'is_staff','is_active', 'date_joined', 'password','created_at', 'is_superuser', 'groups', 'user_permissions',) 
         
+    def validate_age(self, value):
+        if value <= 0:
+            raise serializers.ValidationError('Age can´t be 0')
+        
+        return value
+    
+#Userviewperfil 
+class UserViewPerfilSerializer(serializers.ModelSerializer):
+    
+    posts = PostSerializer(many=True, read_only=True, source='user_posts')
+    rating_coach = RatingCoachSerializer(many=True, read_only=True, source='ratings_received')
+    followers_users = FollowersSerializer(many=True, read_only=True, source='followed_user')
+    followed_users = FollowersSerializer(many=True, read_only=True, source='follower')
+    
+    class Meta:
+        model = User 
+        fields = ('id','username','first_name', 'last_name', 'is_coach','rating_coach', 'bio', 'image_photo', 'posts', 'followers_users', 'followed_users')
+        
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+       
+       #followers counts
+        followers = data.get('followers_users',[])
+        followeds = data.get('followeds_users',[])
+        
+        count_followers = len(followers)
+        count_followeds = len(followeds)
+        
+        data['followers_users'] = count_followers 
+        data['followed_users'] = count_followeds
+        
+        #is coach
+        is_coach = data.get('is_coach')
+        if is_coach == False:
+            data.pop('rating_coach')
+            
+        for post_data in data['posts']:
+            post_data.pop('user_id')
+        
+        return data
+
+#not
+#class UserDetailSerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = User 
+#        fields = ('username', 'first_name', 'last_name', 'is_coach', 'image_photo', 'bio')
+    
+
         
     
