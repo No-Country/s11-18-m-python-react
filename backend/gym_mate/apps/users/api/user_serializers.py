@@ -6,54 +6,10 @@ from django.contrib.auth.hashers import check_password
 class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
-        fields = ('id','username', 'email')
-        read_only_fields = ('id',)
+        fields = ('username', 'email')
 
 
-class UserRegisterSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User 
-        fields = ('id','first_name', 'last_name', 'username', 'email', 'password')
-        read_only_fields = ('id',)
-    
-    #validar password1 y password2 venido del frontend    
-    def validate_password(self, value):
-        confirm_password = self.initial_data.get('confirm_password')
-        
-        if confirm_password:
-            #si passwords son distintos, error
-            if value != confirm_password:
-                raise serializers.ValidationError('passwords do not match') 
-        return value
-        
-    #Modificar el metodo create para encriptar password desde el metodo del modelo user create_user
-    def create(self, validated_data):
-        # Utiliza el método create_user del modelo personalizado de usuario para crear un usuario
-        user = User.objects.create_user(**validated_data)
-        user.save()
-        return user
-    
-    
-class UserLoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)
-
-        
-    def validate_password(self, value):
-        email = self.initial_data.get('email')
-        print(email)
-        try:
-            user = User.objects.get(email=email)
-            if not check_password(value, user.password):
-                raise serializers.ValidationError("Invalid password")
-        except User.DoesNotExist:
-            raise serializers.ValidationError("User not found")
-        return value
-    
-class UserDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User 
-        exclude = ('password','created_at', 'is_superuser') 
-        
-        
-    
+        model = User
+        fields = ("__all__")
