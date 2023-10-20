@@ -296,3 +296,5 @@ $RECYCLE.BIN/
 
 backend\gym_mate\secret.json
 /node_modules
+.node_modules
+node_modules
