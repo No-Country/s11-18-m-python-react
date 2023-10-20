@@ -2,11 +2,16 @@ from apps.users.models import User
 from rest_framework import serializers 
 
 from apps.posts.serializers import PostSerializer
-from apps.posts.models import Posts
+from apps.coach_users.models import Rating_Coach
 from apps.users.models import Followers
 
 from django.utils import timezone
 from django.contrib.auth.hashers import check_password
+
+class RatingCoachSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating_Coach 
+        fields = ('__all__')
 
 class FollowersSerializer(serializers.ModelSerializer):
     class Meta:
@@ -81,33 +86,42 @@ class UserMeSerializer(serializers.ModelSerializer):
 class UserViewPerfilSerializer(serializers.ModelSerializer):
     
     posts = PostSerializer(many=True, read_only=True, source='user_posts')
+    rating_coach = RatingCoachSerializer(many=True, read_only=True, source='ratings_received')
     followers_users = FollowersSerializer(many=True, read_only=True, source='followed_user')
     followed_users = FollowersSerializer(many=True, read_only=True, source='follower')
+    
     class Meta:
         model = User 
-        fields = ('id','username','first_name', 'last_name', 'bio', 'image_photo', 'posts', 'followers_users', 'followed_users')
+        fields = ('id','username','first_name', 'last_name', 'is_coach','rating_coach', 'bio', 'image_photo', 'posts', 'followers_users', 'followed_users')
         
     def to_representation(self, instance):
         data = super().to_representation(instance)
        
-        print(len(data.get('followers_users', [])))
-        
+       #followers counts
         followers = data.get('followers_users',[])
         followeds = data.get('followeds_users',[])
         
         count_followers = len(followers)
         count_followeds = len(followeds)
         
-        
         data['followers_users'] = count_followers 
         data['followed_users'] = count_followeds
         
+        #is coach
+        is_coach = data.get('is_coach')
+        if is_coach == False:
+            data.pop('rating_coach')
+            
+        for post_data in data['posts']:
+            post_data.pop('user_id')
+        
         return data
 
-class UserDetailCoachSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User 
-        fields = ('username', 'first_name', 'last_name', 'is_coach', 'image_photo', 'bio')
+#not
+#class UserDetailSerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = User 
+#        fields = ('username', 'first_name', 'last_name', 'is_coach', 'image_photo', 'bio')
     
 
         

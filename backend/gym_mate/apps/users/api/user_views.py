@@ -31,14 +31,16 @@ class UserRegister(APIView):
             user = user_serializer.save()
             
             token = Token.objects.create(user = user)
+                
+            return Response({
+            'token': token.key,
+            'user': user_serializer.data,
+            'message': 'User created successfully!'
+            }, status=status.HTTP_201_CREATED)
+
             
         else:
-            return Response(user_serializer.errors)        
-    
-        return Response({
-            'token': token.key,
-            'user': user_serializer.data
-        }, status=status.HTTP_201_CREATED)
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
 
 
 # LOGIN
@@ -64,8 +66,9 @@ class UserLogin(APIView):
             if created:
                 return Response({
                     'token':token.key,
-                    'user': user_serializer.data
-                }, status=status.HTTP_202_ACCEPTED)
+                    'user': user_serializer.data,
+                    'message': 'Login successfully!'
+                }, status=status.HTTP_200_OK)
     
             #si el token ya existe entonces eliminamos y volvemos a crear
             else:
@@ -73,11 +76,12 @@ class UserLogin(APIView):
                 token = Token.objects.create(user = user)
                 return Response({
                     'token':token.key,
-                    'user': user_serializer.data
-                }, status=status.HTTP_202_ACCEPTED)
+                    'user': user_serializer.data,
+                    'message': 'Login successfully!'
+                }, status=status.HTTP_200_OK)
     
         else:
-            return Response({"error":"not valid"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error':'Incorrect email or password'}, status=status.HTTP_401_UNAUTHORIZED)
         
         
 # LOGOUT
@@ -95,36 +99,71 @@ class UserLogout(APIView):
         token = Token.objects.filter(user = request.user).first()
         token.delete()
             
-        return Response({"message":"Logout succesfly"}, status=status.HTTP_200_OK)
+        return Response({'message':'Logout successfully!'}, status=status.HTTP_200_OK)
         
     
 # detalles user editar (DATOS PERSONALES)
 class UserMeAPIview(APIView):
     
     authentication_classes = [CustomTokenAuthentication]
-    permission_classes = [IsAuthenticated]  # Requiere que el usuario esté autenticado
+    permission_classes = [IsAuthenticated] 
 
+    #GET
     def get(self, request):
         
-        user = request.user
-        
+        user = request.user 
         user_serializer = UserMeSerializer(user)
         
         return Response({
             'user':user_serializer.data
         }, status=status.HTTP_200_OK)
         
-    #Falta path y put
+    #PUT
+    def put(self, request):
+        user = request.user 
+        user_serializer = UserMeSerializer(instance=user, data=request.data)
+        
+        if user_serializer.is_valid():
+            user_serializer.save()
+            
+            return Response({
+                'message': 'Update successfully!',
+                'user': user_serializer.data
+            }, status=status.HTTP_200_OK)
+            
+        else:
+            return Response({
+                'error':user_serializer.errors
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+    #PATCH
+    def patch(self, request):
+        user = request.user 
+        user_serializer = UserMeSerializer(instance=user, data=request.data, partial=True)
+        
+        if user_serializer.is_valid():
+            user_serializer.save()
+            
+            return Response({
+                'message': 'Update successfully!',
+                'user': user_serializer.data
+            }, status=status.HTTP_200_OK)
+            
+        else:
+            return Response({
+                'error':user_serializer.errors
+            },status=status.HTTP_400_BAD_REQUEST)
         
 # View perfil
 class UserViewPerfilAPIView(APIView):
     
+    authentication_classes = [CustomTokenAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request, pk = None):
         
         if pk is not None:
             user = User.objects.filter(pk = pk).first()
-            #user.follower.all()
             user_serializer = UserViewPerfilSerializer(user)
             
         
@@ -134,4 +173,4 @@ class UserViewPerfilAPIView(APIView):
                 
         return Response({
         'error':'User not found'
-        })
+        }, status=status.HTTP_404_NOT_FOUND)

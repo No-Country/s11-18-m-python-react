@@ -12,7 +12,6 @@ class Rating_Coach(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings_given')
     rated_coach = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings_received')
 
-
 class Verification_Coach(models.Model):
     degree = models.CharField()
     academic_institution = models.CharField()
