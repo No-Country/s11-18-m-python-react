@@ -64,7 +64,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=30)
     age = models.PositiveSmallIntegerField(blank=True, null=True)
     height = models.FloatField(blank=True, null=True)
-    weight = models.IntegerField(blank=True, null=True)
+    weight = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='O')
     is_coach = models.BooleanField(default=False)
     image_photo = models.ImageField(upload_to='users/img', blank=True, null=True)
