@@ -56,6 +56,48 @@ class CategoriesRoutineSerializers(serializers.ModelSerializer):
         fields = ("__all__")
 
 
+class PerformanceNoteWorkoutSerializers(serializers.ModelSerializer):
+    "" "Class representing a  Performance Note Workout Serializers"""
+
+    class Meta:
+        model = PerformanceNoteWorkout
+        fields = ("__all__")
+
+
+class WorkoutImageSerializer(serializers.ModelSerializer):
+    " Class representing a Workout image serializer "
+
+    class Meta:
+        model = WorkoutImage
+        fields = ("__all__")
+
+
+class WorkoutVideoSerializer(serializers.ModelSerializer):
+    " Class representing a Workout image serializer "
+
+    class Meta:
+        model = WorkoutVideo
+        fields = ("__all__")
+
+
+class WorkoutSerializersRetrieve(serializers.ModelSerializer):
+    """ Class representing a Workout Serializer. Method retrive """
+
+    comments = PerformanceNoteWorkoutSerializers(many=True)
+    images = WorkoutImageSerializer(many=True)
+    videos = WorkoutVideoSerializer(many=True)
+
+    class Meta:
+        model = Workout
+        fields = [
+            "id",
+            "created",
+            "comments",
+            "images",
+            "videos",
+        ]
+
+
 class WorkoutSerializerList(serializers.ModelSerializer):
     " Class representig a Workout Serializer. Method list "
     
@@ -72,9 +114,24 @@ class WorkoutSerializer(serializers.ModelSerializer):
         fields = ("__all__")
 
 
+class WeekDaySerializer(serializers.ModelSerializer):
+    """Class representing a Week Day serializer. Method create"""
+    class Meta:
+        model = WeekDay
+        fields = ("__all__")
+
+
+class WeekDaySerializerList(serializers.ModelSerializer):
+    """Class representing a Week Day serializer. Method List"""
+    class Meta:
+        model = WeekDay
+        fields = ("__all__")
+
+
 class SetSerializerRetrieve(serializers.ModelSerializer):
     """Class representing a Set Serializer. Method retrieve"""
     workout_set = WorkoutSerializerList(many=True)
+    day_set = WeekDaySerializer(many=True)
 
     class Meta:
         model = Set
@@ -83,11 +140,33 @@ class SetSerializerRetrieve(serializers.ModelSerializer):
             "set_name",
             "id_routine",
             "created",
+            "day_set",
             "workout_set"
         ]
 
 
-        
+class SetSerializer(serializers.ModelSerializer):
+    """Class representing a Set Serializer. Method create"""
+    class Meta:
+        model = Set
+        fields = ("__all__")
+
+
+class SetSerializerList(serializers.ModelSerializer):
+    """Class representing a Set Serializer. Method list"""
+    day_set = WeekDaySerializer(many=True)
+
+    class Meta:
+        model = Set
+        fields = [
+            "id",
+            "set_name",
+            "id_routine",
+            "created",
+            "day_set"
+        ]
+
+      
 class RoutineSerializersRetrive(serializers.ModelSerializer):
     """ Class that represents Routines serializer for a "retrieve" method """
     
@@ -204,68 +283,6 @@ class RoutineSerializers(serializers.ModelSerializer):
             "id_user",
             "is_user_premium",
         ]
-
-class PerformanceNoteWorkoutSerializers(serializers.ModelSerializer):
-    "" "Class representing a  Performance Note Workout Serializers"""
-
-    class Meta:
-        model = PerformanceNoteWorkout
-        fields = ("__all__")
-
-
-class WorkoutImageSerializer(serializers.ModelSerializer):
-    " Class representing a Workout image serializer "
-
-    class Meta:
-        model = WorkoutImage
-        fields = ("__all__")
-
-
-class WorkoutVideoSerializer(serializers.ModelSerializer):
-    " Class representing a Workout image serializer "
-
-    class Meta:
-        model = WorkoutVideo
-        fields = ("__all__")
-
-
-class WorkoutSerializersRetrieve(serializers.ModelSerializer):
-    """ Class representing a Workout Serializer. Method retrive """
-
-    comments = PerformanceNoteWorkoutSerializers(many=True)
-    images = WorkoutImageSerializer(many=True)
-    videos = WorkoutVideoSerializer(many=True)
-
-    class Meta:
-        model = Workout
-        fields = [
-            "id",
-            "created",
-            "comments",
-            "images",
-            "videos",
-        ]
-
-
-class SetSerializer(serializers.ModelSerializer):
-    """Class representing a Set Serializer. Method create"""
-    class Meta:
-        model = Set
-        fields = ("__all__")
-
-
-class SetSerializerList(serializers.ModelSerializer):
-    """Class representing a Set Serializer. Method list"""
-    class Meta:
-        model = Set
-        fields = ("__all__")
-
-
-class WeekDaySerializer(serializers.ModelSerializer):
-    """Class representing a Week Day serializer. Method create"""
-    class Meta:
-        model = WeekDay
-        fields = ("__all__")
 
 
 class CategoriesRoutineRetriveSerializers(serializers.ModelSerializer):
