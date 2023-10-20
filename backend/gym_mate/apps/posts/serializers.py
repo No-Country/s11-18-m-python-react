@@ -2,18 +2,20 @@ from rest_framework import serializers, pagination
 from .models import Posts, CommentPost,Junction_likes,Junction_repost
 
 
+
 class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Posts
-        fields = ["content",'image_url','video_url','user','id']
-
-    def create(self, validated_data):
-        # validated_data['user'] = self.context['request'].user
+        fields = ["content",'image_url','video_url','user','id','total_comments','total_likes','total_repost']
+        read_only_fields = ['total_comments','total_likes','total_repost']
+    
+    def create(self, validated_data):             
         post = Posts.objects.create(**validated_data)
         post.save()
-        return post 
-    
+        return post         
+
+
 class CommmentPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentPost
@@ -24,47 +26,66 @@ class CommmentPostSerializer(serializers.ModelSerializer):
         comment.save()               
         return comment
     
-    #def get_comment_user_id(self, obj):
-    #     return obj.comment_user_id.username
-    
+    def update_comment_value(self, validated_data):
+        post_id = validated_data['comment_post']
+        existing_post = Posts.objects.filter(id = post_id).first()        
+
+        if existing_post:
+            existing_post.total_comments += 1
+            existing_post.save(update_fields=['total_comments'])
+            return existing_post
+
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Junction_likes
-        fields = ["total_likes", "likes_post", "likes_user"]
+        fields = ["likes_post", "likes_user"]
 
     def create(self, validated_data):
-        user = validated_data['likes_user']
-        post = validated_data['likes_post']
-        existing_like = Junction_likes.objects.filter(likes_user=user, likes_post=post).first()     
-
-        if existing_like: 
-            existing_like.total_likes += 1
-            existing_like.save(update_fields=['total_likes'])
-            return existing_like
-        else:
+            post_id = validated_data['likes_post']
+            user = validated_data['likes_user']
+            existing_like = Junction_likes.objects.filter(likes_post = post_id, likes_user = user).first()
+            
+            if existing_like:
+                raise serializers.ValidationError('Already liked!')
+            
             like = Junction_likes.objects.create(**validated_data)
             like.save()  
-            return like    
+            return like
+
+    def update_like_value(self, validated_data):
+        post_id = validated_data['likes_post']
+        existing_post = Posts.objects.filter(id = post_id).first()        
+
+        if existing_post:
+            existing_post.total_likes += 1
+            existing_post.save(update_fields=['total_likes'])
+            return existing_post   
 
 class RepostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Junction_repost
-        fields = ["total_repost", "repost_post", "repost_user"]
+        fields = ["repost_post", "repost_user"]
 
     def create(self, validated_data):
+        post_id = validated_data['repost_post']
         user = validated_data['repost_user']
-        post = validated_data['repost_post']
-        existing_repost = Junction_repost.objects.filter(repost_user=user, repost_post=post).first()     
+        existing_repost = Junction_repost.objects.filter(repost_post = post_id, repost_user = user).first()
 
-        if existing_repost: 
-            existing_repost.total_repost += 1
-            existing_repost.save(update_fields=['total_repost'])
-            return existing_repost
-        else:
-            repost = Junction_repost.objects.create(**validated_data)
-            repost.save()  
-            return repost 
+        if existing_repost:
+            raise serializers.ValidationError('Already reposted!')
 
+        repost = Junction_repost.objects.create(**validated_data)
+        repost.save()  
+        return repost 
+
+    def update_repost_value(self, validated_data):
+        post_id = validated_data['repost_post']
+        existing_post = Posts.objects.filter(id = post_id).first()    
+
+        if existing_post:
+            existing_post.total_repost += 1
+            existing_post.save(update_fields=['total_repost'])
+            return existing_post  
 
 class PaginationSerializer(pagination.PageNumberPagination):
 
