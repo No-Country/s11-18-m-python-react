@@ -2,16 +2,11 @@ from apps.users.models import User
 from rest_framework import serializers 
 
 from apps.posts.serializers import PostSerializer
-from apps.coach_users.models import Rating_Coach
+from apps.coach_users.api.serializers import RatingCoachSerializer
 from apps.users.models import Followers
 
 from django.utils import timezone
 from django.contrib.auth.hashers import check_password
-
-class RatingCoachSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Rating_Coach 
-        fields = ('__all__')
 
 class FollowersSerializer(serializers.ModelSerializer):
     class Meta:
