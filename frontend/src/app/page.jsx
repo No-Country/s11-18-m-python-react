@@ -1,19 +1,17 @@
-import CoachesDest from '@/components/Coaches/Coaches'
-import Suscribite from '@/components/Suscribite/Suscribite'
+
+
+import EquilibrioCard from '@/components/categoryCard/EquilibrioCard'
 import Image from 'next/image'
-import MenuBar from '@/components/menuBar/MenuBar'
-import CarruselProfiles from '@/components/carruselProfiles/CarruselProfiles'
-import SearchContainer from '@/components/searchcontainer/SearchContainer'
+
+
+
+
 
 export default function Home() {
   return (
     <main>
-      <MenuBar/>
-      <CarruselProfiles/>
-      <SearchContainer/>
+     <EquilibrioCard/>
     
-    <Suscribite/>
-    <CoachesDest/>
     </main>
   )
 }
