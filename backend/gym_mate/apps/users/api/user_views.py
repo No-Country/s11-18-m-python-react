@@ -23,7 +23,12 @@ from .user_serializers import (
 # REGISTRO
 class UserRegister(APIView):
     
-    #agregar datos del serializer
+    serializer_class = UserRegisterSerializer
+      
+    queryset = User.objects.all()  
+    
+  #  def get(self, request):
+   #     return UserRegisterSerializer()
     
     #Enviamos campos register por POST
     def post(self, request):
