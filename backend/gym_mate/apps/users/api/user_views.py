@@ -18,9 +18,12 @@ from .user_serializers import (
     UserViewPerfilSerializer
 )
 
+#filtros buscador home
 
 # REGISTRO
 class UserRegister(APIView):
+    
+    #agregar datos del serializer
     
     #Enviamos campos register por POST
     def post(self, request):
