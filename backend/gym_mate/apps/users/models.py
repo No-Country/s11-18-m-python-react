@@ -77,6 +77,7 @@ class User(AbstractUser):
     weight = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='O')
     is_coach = models.BooleanField(default=False)
+    is_premium = models.BooleanField(default=False)
     image_photo = models.ImageField(upload_to='users/img', blank=True, null=True)
     bio = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
