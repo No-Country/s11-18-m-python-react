@@ -88,12 +88,13 @@ class UserViewPerfilSerializer(serializers.ModelSerializer):
     
     posts = PostSerializer(many=True, read_only=True, source='user_posts')
     rating_coach = RatingCoachSerializer(many=True, read_only=True, source='ratings_received')
+    rating_coach_average = RatingCoachSerializer(many=True, read_only=True, source='ratings_received')
     followers_users = FollowersSerializer(many=True, read_only=True, source='followed_user')
     followed_users = FollowersSerializer(many=True, read_only=True, source='follower')
     
     class Meta:
         model = User 
-        fields = ('id','username','first_name', 'last_name', 'is_coach','rating_coach', 'bio', 'image_photo', 'posts', 'followers_users', 'followed_users')
+        fields = ('id','username','first_name', 'last_name', 'is_coach', 'rating_coach_average', 'rating_coach', 'bio', 'image_photo', 'posts', 'followers_users', 'followed_users')
         
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -108,10 +109,21 @@ class UserViewPerfilSerializer(serializers.ModelSerializer):
         data['followers_users'] = count_followers 
         data['followed_users'] = count_followeds
         
+        #rating_coach_average
+        rating_total = 0
+        for rating_data in (data['rating_coach_average']):
+            rating_total += rating_data['rating']
+      
+        if len(data['rating_coach']) != 0:
+            rating_average = rating_total / len(data['rating_coach'])
+            data['rating_coach_average'] = rating_average
+        
+        
         #is coach
         is_coach = data.get('is_coach')
         if is_coach == False:
             data.pop('rating_coach')
+            data.pop('rating_coach_average')
             
         for post_data in data['posts']:
             post_data.pop('id')
