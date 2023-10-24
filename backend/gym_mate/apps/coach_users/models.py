@@ -2,11 +2,7 @@ from django.db import models
 from apps.users.models import User
 from django.conf import settings
 
-
-
-
 #Coach models
-
 class Rating_Coach(models.Model):
     rating = models.IntegerField()
     text = models.TextField()

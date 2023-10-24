@@ -1,11 +1,10 @@
-from apps.users.models import User
+from apps.users.models import User, Followers
 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from apps.users.authenticate import CustomTokenAuthentication
 
@@ -174,24 +173,66 @@ class UserViewPerfilAPIView(APIView):
         
         if pk is not None:
             user = User.objects.filter(pk = pk).first()
-            user_serializer = UserViewPerfilSerializer(user)
+            if user:
+                user_serializer = UserViewPerfilSerializer(user)
             
-        
-            return Response({
-                'user':user_serializer.data
-            }, status=status.HTTP_200_OK)
+                return Response({
+                    'user':user_serializer.data
+                }, status=status.HTTP_200_OK)
                 
         return Response({
         'error':'User not found'
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-#filtros
-class UserSource(APIView):
+#seguir a un perfil
+class UserFollowAPIView(APIView):
+    
+    authentication_classes = [CustomTokenAuthentication] 
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, pk):
+        user_follower = request.user
+        user_followed = User.objects.filter(pk = pk).first()
+        
+        if user_followed:
+            Followers.objects.create(follower=user_follower, followed=user_followed)
+                
+            return Response({
+                'message':f'User {user_followed.username} followed!'
+            }, status=status.HTTP_200_OK)
+    
+        return Response({
+            'error':'not follow'
+        }, status=status.HTTP_404_NOT_FOUND)
+        
+class UserUnfollowAPIView(APIView):
+    
+    authentication_classes = [CustomTokenAuthentication] 
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, pk = None):
+        user = request.user
+        
+        user_followed = User.objects.filter(pk=pk).first()
+        if user_followed:
+            follow = Followers.objects.filter(follower=user, followed=user_followed) 
+            if follow:
+                follow.delete()
+                    
+                return Response({
+                    'message': f'User {user_followed.username} unfollowed!'
+                })
+        
+        return Response({
+            'error':'not unfollow'
+        })
+
+#filtros  
+class UserSourceAPIView(APIView):
     
     def get(self, request):
         search = request.query_params.get('user', None)
-        print(search)
     
         if search is not None:
             users = User.custom_objects.search_user(search)
@@ -204,9 +245,9 @@ class UserSource(APIView):
             else:
                 return Response({
                     'error':'Search not found'
-                }, status=status.HTTP_400_BAD_REQUEST)
+                }, status=status.HTTP_404_NOT_FOUND)
     
-class CoachView(APIView):
+class CoachAPIView(APIView):
     
     def get(self, request):
         
@@ -215,5 +256,5 @@ class CoachView(APIView):
         
         return Response({
             'users': users_serializer.data
-        })
+        }, status=status.HTTP_200_OK)
         

@@ -5,8 +5,10 @@ from apps.users.api.user_views import (
     UserMeAPIview,
     UserLogout,
     UserViewPerfilAPIView,
-    CoachView,
-    UserSource
+    CoachAPIView,
+    UserSourceAPIView,
+    UserFollowAPIView,
+    UserUnfollowAPIView
 )
 
 urlpatterns = [
@@ -17,8 +19,10 @@ urlpatterns = [
     
     path('user/<int:pk>/', UserViewPerfilAPIView.as_view(), name='user-view'),
     
-    path('user/filter/coach', CoachView.as_view(), name='coach' ),
-    path('user/source/', UserSource.as_view(), name='source' )
+    path('user/filter/coach/', CoachAPIView.as_view(), name='coach'),
+    path('user/source/', UserSourceAPIView.as_view(), name='source'),
+    path('user/<int:pk>/follow/', UserFollowAPIView.as_view(), name='user-follow'),
+    path('user/<int:pk>/unfollow/', UserUnfollowAPIView.as_view(), name='user-unfollow')
     
     
     
