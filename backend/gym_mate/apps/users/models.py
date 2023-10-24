@@ -2,11 +2,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from gym_mate.settings.base import AUTH_USER_MODEL 
 
+from .managers import CustomUserManager
+
 #Diet model
 class Diet(models.Model):
     name_diet = models.CharField(max_length=30)
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name_diet
 
 #Seguidores
 class Followers(models.Model):
@@ -87,7 +92,7 @@ class User(AbstractUser):
     #diet = models.OneToOneField(Diet, on_delete=models.SET_NULL)
     
     objects = UserManager()
-    
+    custom_objects = CustomUserManager()
         
     def __str__(self):
         return self.username
