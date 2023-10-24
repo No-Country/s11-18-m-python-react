@@ -18,9 +18,16 @@ from .user_serializers import (
     UserViewPerfilSerializer
 )
 
+#filtros buscador home
 
 # REGISTRO
 class UserRegister(APIView):
+    
+    serializer_class = UserRegisterSerializer
+      
+    def get(self, request):
+        serializer = UserRegisterSerializer()
+        return  Response (serializer.data)
     
     #Enviamos campos register por POST
     def post(self, request):
@@ -46,6 +53,9 @@ class UserRegister(APIView):
 # LOGIN
 class UserLogin(APIView):
   
+    def get(self, request): 
+        serializer = UserLoginSerializer()
+        return Response(serializer.data)
     # Enviamos campos login por POST
     def post(self,request):
         
@@ -174,3 +184,36 @@ class UserViewPerfilAPIView(APIView):
         return Response({
         'error':'User not found'
         }, status=status.HTTP_404_NOT_FOUND)
+
+
+#filtros
+class UserSource(APIView):
+    
+    def get(self, request):
+        search = request.query_params.get('user', None)
+        print(search)
+    
+        if search is not None:
+            users = User.custom_objects.search_user(search)
+            
+            if users:
+                users_serializer = UserViewPerfilSerializer(users, many=True)
+                return Response({
+                    'users':users_serializer.data
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    'error':'Search not found'
+                }, status=status.HTTP_400_BAD_REQUEST)
+    
+class CoachView(APIView):
+    
+    def get(self, request):
+        
+        users = User.custom_objects.coach()
+        users_serializer = UserViewPerfilSerializer(users, many=True)
+        
+        return Response({
+            'users': users_serializer.data
+        })
+        

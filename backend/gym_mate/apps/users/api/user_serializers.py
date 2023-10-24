@@ -114,7 +114,8 @@ class UserViewPerfilSerializer(serializers.ModelSerializer):
             data.pop('rating_coach')
             
         for post_data in data['posts']:
-            post_data.pop('user_id')
+            post_data.pop('id')
+            post_data.pop('user')
         
         return data
 

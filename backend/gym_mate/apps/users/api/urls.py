@@ -4,7 +4,9 @@ from apps.users.api.user_views import (
     UserRegister,
     UserMeAPIview,
     UserLogout,
-    UserViewPerfilAPIView
+    UserViewPerfilAPIView,
+    CoachView,
+    UserSource
 )
 
 urlpatterns = [
@@ -14,6 +16,10 @@ urlpatterns = [
     path('logout/', UserLogout.as_view(), name='logout'),
     
     path('user/<int:pk>/', UserViewPerfilAPIView.as_view(), name='user-view'),
+    
+    path('user/filter/coach', CoachView.as_view(), name='coach' ),
+    path('user/source/', UserSource.as_view(), name='source' )
+    
     
     
 ]
