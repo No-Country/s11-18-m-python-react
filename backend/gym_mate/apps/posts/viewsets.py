@@ -67,9 +67,9 @@ class LikeViewSet(viewsets.ModelViewSet):
         serializer = LikeSerializer(data = request.data)
         if serializer.is_valid():
             like = serializer.save()
-            serializer.update_like_value({'likes_post': like.likes_post.id})
+            #serializer.update_like_value({'likes_post': like.likes_post.id})
             return Response({
-                'message': 'Post liked!'
+                'message': 'Done'
             }, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)

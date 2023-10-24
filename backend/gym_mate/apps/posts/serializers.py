@@ -41,25 +41,36 @@ class LikeSerializer(serializers.ModelSerializer):
         fields = ["likes_post", "likes_user"]
 
     def create(self, validated_data):
-            post_id = validated_data['likes_post']
+            post_id = validated_data['likes_post'].id
             user = validated_data['likes_user']
             existing_like = Junction_likes.objects.filter(likes_post = post_id, likes_user = user).first()
+            existing_post = Posts.objects.filter(id = post_id).first()
             
-            if existing_like:
-                raise serializers.ValidationError('Already liked!')
-            
-            like = Junction_likes.objects.create(**validated_data)
-            like.save()  
-            return like
+            if existing_like and existing_post:
+                # raise serializers.ValidationError('Already liked!')
+                existing_post.total_likes -= 1
+                existing_post.save(update_fields=['total_likes'])
 
-    def update_like_value(self, validated_data):
-        post_id = validated_data['likes_post']
-        existing_post = Posts.objects.filter(id = post_id).first()        
+                existing_like.delete()
+            else: 
+                like = Junction_likes.objects.create(**validated_data)
+                like.save()  
+                existing_post = Posts.objects.filter(id = post_id).first()
 
-        if existing_post:
-            existing_post.total_likes += 1
-            existing_post.save(update_fields=['total_likes'])
-            return existing_post   
+                if existing_post:
+                    existing_post.total_likes += 1
+                    existing_post.save(update_fields=['total_likes'])
+
+            return existing_post.id
+
+    # def update_like_value(self, validated_data):
+    #     post_id = validated_data['likes_post']
+    #     existing_post = Posts.objects.filter(id = post_id).first()
+        
+    #     if existing_post:
+    #         existing_post.total_likes += 1
+    #         existing_post.save(update_fields=['total_likes'])
+    #         return existing_post   
 
 class RepostSerializer(serializers.ModelSerializer):
     class Meta:

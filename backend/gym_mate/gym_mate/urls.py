@@ -27,5 +27,5 @@ urlpatterns = [
     path('posts/', include('apps.posts.routers')),
     
     path('routine/', include('apps.workout_plans.routers')),
-    path('posts/', include('apps.posts.routers'))
+
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
