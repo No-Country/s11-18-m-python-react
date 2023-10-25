@@ -1,6 +1,5 @@
 from apps.users.models import User 
 from rest_framework import serializers 
-import logging
 
 from apps.posts.serializers import PostSerializer
 from apps.coach_users.api.serializers import RatingCoachSerializer
@@ -155,11 +154,9 @@ class UserFollowedsSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         
-        #followed_serializer = FollowedHomeSerializer()
         updated_followed_users = []
         
         for followed_user in data['followed_users']:
-            print(followed_user['followed'])
             user = User.objects.filter(pk = followed_user['followed']).first()
             
             followed_serializer = FollowedHomeSerializer(user)
@@ -168,11 +165,6 @@ class UserFollowedsSerializer(serializers.ModelSerializer):
         data['followed_users'] = updated_followed_users 
         return data
 
-#not
-#class UserDetailSerializer(serializers.ModelSerializer):
-#    class Meta:
-#        model = User 
-#        fields = ('username', 'first_name', 'last_name', 'is_coach', 'image_photo', 'bio')
     
 
         
