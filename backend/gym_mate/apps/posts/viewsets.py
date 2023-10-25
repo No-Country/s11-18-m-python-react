@@ -32,9 +32,17 @@ class PostView(viewsets.ModelViewSet):
         queryset = Posts.objects.all()
         post = get_object_or_404(queryset, pk=pk)
         serializer = PostSerializer(post)
-        return Response(serializer.data)
-    
+        return Response(serializer.data)    
 
+'''    
+    WORKING:
+    def update(self, request, *args, **kwargs):
+        comment_object = self.get_object()
+        data = request.data
+
+        
+        return super().update(request, *args, **kwargs)
+'''
 
 class CommentViewSet(viewsets.ModelViewSet):
 
@@ -52,8 +60,8 @@ class CommentViewSet(viewsets.ModelViewSet):
                 'Comment': serializer.data
             }, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-        
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)     
+
 
 
 
@@ -67,10 +75,15 @@ class LikeViewSet(viewsets.ModelViewSet):
         serializer = LikeSerializer(data = request.data)
         if serializer.is_valid():
             like = serializer.save()
+            if like == 'removed':
+                return Response({
+                    'message': 'Like removed from post!'
+                }, status=status.HTTP_200_OK)
             #serializer.update_like_value({'likes_post': like.likes_post.id})
-            return Response({
-                'message': 'Done'
-            }, status=status.HTTP_201_CREATED)
+            else:
+                return Response({
+                    'message': 'Liked successfully!'
+                }, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
         
@@ -84,12 +97,16 @@ class RepostViewSet(viewsets.ModelViewSet):
     queryset = Junction_repost.objects.all().order_by('-created')
     
     def create(self, request, *args, **kwargs):        
-        serializer = RepostSerializer(data = request.data)
+        serializer = RepostSerializer(data = request.data)        
         if serializer.is_valid():
             repost = serializer.save()
-            serializer.update_repost_value({'repost_post': repost.repost_post.id})
-            return Response({
-                'message': 'Reposted successfully!'
-            }, status=status.HTTP_201_CREATED)
+            if repost == 'removed':
+                return Response({
+                    'message': 'Repost removed from post!'
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    'message': 'Reposted successfully!'
+                }, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)

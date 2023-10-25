@@ -20,6 +20,7 @@ class CommmentPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentPost
         fields = ["comment_content", "comment_post", "comment_user"]
+        #fields = ["comment_content", "comment_post", "comment_user","hide_comment"]
 
     def create(self, validated_data):
         comment = CommentPost.objects.create(**validated_data)
@@ -34,7 +35,17 @@ class CommmentPostSerializer(serializers.ModelSerializer):
             existing_post.total_comments += 1
             existing_post.save(update_fields=['total_comments'])
             return existing_post
+'''
+    WORKING:
+    def hide_comment(self, validated_data):
+        post_id = validated_data['comment_post']
+        existing_post = Posts.objects.filter(id = post_id).first()  
 
+        if existing_post:
+            existing_post.hide_comment = True
+            existing_post.save(update_fields=['hide_comment'])
+            return existing_post
+'''
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Junction_likes
@@ -47,11 +58,11 @@ class LikeSerializer(serializers.ModelSerializer):
             existing_post = Posts.objects.filter(id = post_id).first()
             
             if existing_like and existing_post:
-                # raise serializers.ValidationError('Already liked!')
                 existing_post.total_likes -= 1
                 existing_post.save(update_fields=['total_likes'])
 
                 existing_like.delete()
+                return 'removed'   
             else: 
                 like = Junction_likes.objects.create(**validated_data)
                 like.save()  
@@ -78,25 +89,36 @@ class RepostSerializer(serializers.ModelSerializer):
         fields = ["repost_post", "repost_user"]
 
     def create(self, validated_data):
-        post_id = validated_data['repost_post']
-        user = validated_data['repost_user']
+        post_id = validated_data['repost_post'].id
+        user = validated_data['repost_user']        
         existing_repost = Junction_repost.objects.filter(repost_post = post_id, repost_user = user).first()
+        existing_post = Posts.objects.filter(id = post_id).first()
 
-        if existing_repost:
-            raise serializers.ValidationError('Already reposted!')
-
-        repost = Junction_repost.objects.create(**validated_data)
-        repost.save()  
-        return repost 
-
-    def update_repost_value(self, validated_data):
-        post_id = validated_data['repost_post']
-        existing_post = Posts.objects.filter(id = post_id).first()    
-
-        if existing_post:
-            existing_post.total_repost += 1
+        if existing_repost and existing_post:
+            existing_post.total_repost -= 1
             existing_post.save(update_fields=['total_repost'])
-            return existing_post  
+
+            existing_repost.delete()
+            return 'removed'           
+        else:
+            repost = Junction_repost.objects.create(**validated_data)
+            repost.save()
+            existing_post = Posts.objects.filter(id = post_id).first()
+
+            if existing_post:
+                existing_post.total_repost += 1
+                existing_post.save(update_fields=['total_repost'])
+
+        return existing_post.id
+
+   # def update_repost_value(self, validated_data):
+    #     post_id = validated_data['repost_post']
+    #     existing_post = Posts.objects.filter(id = post_id).first()    
+
+    #     if existing_post:
+    #         existing_post.total_repost += 1
+    #         existing_post.save(update_fields=['total_repost'])
+    #         return existing_post  
 
 class PaginationSerializer(pagination.PageNumberPagination):
 
