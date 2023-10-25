@@ -14,7 +14,8 @@ from .user_serializers import (
     UserRegisterSerializer,
     UserMeSerializer,
     UserLoginSerializer,
-    UserViewPerfilSerializer
+    UserViewPerfilSerializer,
+    UserFollowedsSerializer
 )
 
 #filtros buscador home
@@ -229,11 +230,11 @@ class UserUnfollowAPIView(APIView):
             'error':'not unfollow'
         })
 
-#filtros  
-class UserSourceAPIView(APIView):
+# Home-search 
+class UserSearchAPIView(APIView):
     
     def get(self, request):
-        search = request.query_params.get('user', None)
+        search = request.query_params.get('search', None)
     
         if search is not None:
             users = User.custom_objects.search_user(search)
@@ -247,7 +248,28 @@ class UserSourceAPIView(APIView):
                 return Response({
                     'error':'Search not found'
                 }, status=status.HTTP_404_NOT_FOUND)
+                
+        return Response({
+            'error': 'not search'
+        })
+        
+# Home-followeds
+
+class UserFollowedsAPIView(APIView):
     
+    authentication_classes = [CustomTokenAuthentication] 
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        
+        user = request.user
+        
+        user_serializer = UserFollowedsSerializer(user)
+        
+        return Response({
+            'user': user_serializer.data
+        })
+        
 class CoachAPIView(APIView):
     
     def get(self, request):

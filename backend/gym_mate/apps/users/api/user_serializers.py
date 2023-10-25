@@ -13,6 +13,12 @@ class FollowersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Followers
         fields = ('follower', 'followed')
+        
+class FollowedHomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'is_coach', 'is_premium', 'image_photo')
+        
 
 class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
@@ -135,6 +141,31 @@ class UserViewPerfilSerializer(serializers.ModelSerializer):
             post_data.pop('id')
             post_data.pop('user')
         
+        return data
+    
+    
+class UserFollowedsSerializer(serializers.ModelSerializer):
+    
+    followed_users = FollowersSerializer(many=True, read_only=True, source='follower')
+    class Meta:
+        model = User 
+        fields = ('id', 'username', 'followed_users')
+        
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        
+        #followed_serializer = FollowedHomeSerializer()
+        updated_followed_users = []
+        
+        for followed_user in data['followed_users']:
+            print(followed_user['followed'])
+            user = User.objects.filter(pk = followed_user['followed']).first()
+            
+            followed_serializer = FollowedHomeSerializer(user)
+            updated_followed_users.append(followed_serializer.data) 
+            
+        data['followed_users'] = updated_followed_users 
         return data
 
 #not
