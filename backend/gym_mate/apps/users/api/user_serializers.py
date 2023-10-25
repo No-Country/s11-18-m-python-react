@@ -1,5 +1,6 @@
 from apps.users.models import User 
 from rest_framework import serializers 
+import logging
 
 from apps.posts.serializers import PostSerializer
 from apps.coach_users.api.serializers import RatingCoachSerializer
@@ -50,18 +51,21 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(allow_blank=False)
 
-        
+    def validate_email(self, value):
+        print(value)
+        return value   
+         
     def validate_password(self, value):
-        email = self.initial_data.get('email')
-        
-        try:
-            user = User.objects.get(email=email)
+        email = self.initial_data.get('email')  
+       
+        user = User.objects.get(email=email)
+        if user:
+            print(check_password(value, user.password))
             if not check_password(value, user.password):
                 raise serializers.ValidationError("Invalid password")
-        except User.DoesNotExist:
-            raise serializers.ValidationError("User not found")
+
         return value
     
     def validate(self, data):
@@ -69,6 +73,7 @@ class UserLoginSerializer(serializers.Serializer):
         user = User.objects.filter(email = email).first()
         user.last_login = timezone.now()
         user.save()
+        print(data)
         return data
 
 #UserMedetail, editar detalles   

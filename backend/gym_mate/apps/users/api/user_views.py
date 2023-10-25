@@ -90,7 +90,7 @@ class UserLogin(APIView):
                 }, status=status.HTTP_200_OK)
     
         else:
-            return Response({'error':'Incorrect email or password'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(login_serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
         
         
 # LOGOUT
@@ -185,7 +185,7 @@ class UserViewPerfilAPIView(APIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-#seguir a un perfil
+# Follow
 class UserFollowAPIView(APIView):
     
     authentication_classes = [CustomTokenAuthentication] 
@@ -205,7 +205,8 @@ class UserFollowAPIView(APIView):
         return Response({
             'error':'not follow'
         }, status=status.HTTP_404_NOT_FOUND)
-        
+      
+# Unfollow  
 class UserUnfollowAPIView(APIView):
     
     authentication_classes = [CustomTokenAuthentication] 

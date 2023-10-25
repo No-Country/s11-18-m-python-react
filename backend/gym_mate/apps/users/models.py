@@ -18,9 +18,13 @@ class Followers(models.Model):
     follower = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='follower')
     followed = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_user')
     
+    class Meta:
+        verbose_name = 'Follower'
+        verbose_name_plural = 'Followers'
+        
     def __str__(self):
         return f"seguidor: {self.follower.username} -- sigue a: {self.followed.username}"
-    
+     
 
 # Creamos el UserManager personalizado con los metodos para crear
 class UserManager(BaseUserManager):
