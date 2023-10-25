@@ -43,18 +43,19 @@ def create_rating(request, coach_id):
 @api_view(['PATCH'])
 @authentication_classes([CustomTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def update_rating(request, coach_id, rating_id):
+def update_rating(request, coach_id):
     """
     Actualiza una calificación existente para el coach específico.
     """
     # Obtén el ID del usuario logueado
     user_id = request.user.id
 
-    # Verifica si el usuario logueado coincide con el coach del rating
-    if not Rating_Coach.objects.filter(id=rating_id, rated_coach=coach_id, user=user_id).exists():
+    # Busca la calificación basada en el usuario logueado y el coach
+    rating = Rating_Coach.objects.filter(rated_coach=coach_id, user=user_id).first()
+
+    if not rating:
         return Response({'detail': 'No tiene permiso para actualizar esta calificación.'}, status=status.HTTP_403_FORBIDDEN)
 
-    rating = get_object_or_404(Rating_Coach, id=rating_id)
     serializer = RatingCoachSerializer(instance=rating, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
@@ -80,9 +81,6 @@ def create_verification(request):
     """
     Crea una nueva verificación de coach.
     """
-    if not request.user.is_coach:
-        return Response({'detail': 'No tiene permiso para crear verificaciones de coach.'}, status=status.HTTP_403_FORBIDDEN)
-
     request.data['user'] = request.user.id
     serializer = VerificationCoachSerializer(data=request.data)
     if serializer.is_valid():
@@ -164,12 +162,12 @@ def create_subscription(request):
 @api_view(['GET'])
 @authentication_classes([CustomTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def get_subscription(request, subscription_id):
+def get_user_subscription(request):
     """
-    Obtiene detalles de una suscripción a gimnasio específica, si pertenece al usuario logueado.
+    Obtiene detalles de la suscripción al gimnasio del usuario logueado.
     """
     try:
-        subscription = Gym_Subscription.objects.get(id=subscription_id, user=request.user)
+        subscription = Gym_Subscription.objects.get(user=request.user)
         serializer = GymSubscriptionSerializer(subscription)
         return Response(serializer.data)
     except Gym_Subscription.DoesNotExist:
@@ -179,12 +177,12 @@ def get_subscription(request, subscription_id):
 @api_view(['PATCH'])
 @authentication_classes([CustomTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def update_subscription(request, subscription_id):
+def update_user_subscription(request):
     """
-    Actualiza una suscripción a gimnasio existente, si pertenece al usuario logueado.
+    Actualiza la suscripción al gimnasio del usuario logueado.
     """
     try:
-        subscription = Gym_Subscription.objects.get(id=subscription_id, user=request.user)
+        subscription = Gym_Subscription.objects.get(user=request.user)
         serializer = GymSubscriptionSerializer(instance=subscription, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -197,12 +195,12 @@ def update_subscription(request, subscription_id):
 @api_view(['DELETE'])
 @authentication_classes([CustomTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def delete_subscription(request, subscription_id):
+def delete_user_subscription(request):
     """
-    Elimina una suscripción a gimnasio, si pertenece al usuario logueado.
+    Elimina la suscripción al gimnasio del usuario logueado.
     """
     try:
-        subscription = Gym_Subscription.objects.get(id=subscription_id, user=request.user)
+        subscription = Gym_Subscription.objects.get(user=request.user)
         subscription.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     except Gym_Subscription.DoesNotExist:
