@@ -54,18 +54,20 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField(allow_blank=False)
 
     def validate_email(self, value):
-        print(value)
+        try:
+            User.objects.get(email=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("Email not exist")
         return value   
          
     def validate_password(self, value):
         email = self.initial_data.get('email')  
-       
-        user = User.objects.get(email=email)
+ 
+        user = User.objects.filter(email=email).first()     
         if user:
-            print(check_password(value, user.password))
             if not check_password(value, user.password):
                 raise serializers.ValidationError("Invalid password")
-
+    
         return value
     
     def validate(self, data):
@@ -73,7 +75,6 @@ class UserLoginSerializer(serializers.Serializer):
         user = User.objects.filter(email = email).first()
         user.last_login = timezone.now()
         user.save()
-        print(data)
         return data
 
 #UserMedetail, editar detalles   
