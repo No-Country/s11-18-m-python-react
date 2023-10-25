@@ -36,9 +36,9 @@ class CommmentPostSerializer(serializers.ModelSerializer):
             existing_post.save(update_fields=['total_comments'])
             return existing_post
 '''
-    WORKING:
     def hide_comment(self, validated_data):
         post_id = validated_data['comment_post']
+        user = validated_data['comment_user']
         existing_post = Posts.objects.filter(id = post_id).first()  
 
         if existing_post:

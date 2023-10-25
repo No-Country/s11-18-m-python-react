@@ -34,15 +34,8 @@ class PostView(viewsets.ModelViewSet):
         serializer = PostSerializer(post)
         return Response(serializer.data)    
 
-'''    
-    WORKING:
-    def update(self, request, *args, **kwargs):
-        comment_object = self.get_object()
-        data = request.data
-
         
-        return super().update(request, *args, **kwargs)
-'''
+
 
 class CommentViewSet(viewsets.ModelViewSet):
 
@@ -61,9 +54,11 @@ class CommentViewSet(viewsets.ModelViewSet):
             }, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)     
-
-
-
+'''
+    def partial_update(self, request, *args, **kwargs):
+        comment = self.get_object()
+        serializer = CommmentPostSerializer(comment, )
+'''
 
 class LikeViewSet(viewsets.ModelViewSet):
 
