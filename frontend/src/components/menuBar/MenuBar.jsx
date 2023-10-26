@@ -5,7 +5,7 @@ import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
 
 const MenuBar = () => {
   return (
-    <article className='w-[412px] h-[64px] bg-Turqusa/200 flex justify-between items-center px-[45px]'>
+    <article className='w-[412px] h-[64px] bg-Turqusa/200 flex justify-between items-center px-4'>
         <div className='flex text-white text-2xl gap-2'>
             <AiOutlineMenu/>
             <AiOutlineSearch/>

@@ -5,7 +5,7 @@ import {GiBattery25} from "react-icons/gi";
 
 const StatusBar = () => {
   return (
-    <article className='w-[412px] h-[52px] bg-black flex justify-between items-center px-12'>
+    <article className='w-[412px] h-[52px] bg-black flex justify-between items-center px-4'>
     <span className='text-white'>9:30</span>
     <div className='text-white flex gap-1'>
         <MdSignalWifiStatusbar4Bar/>

@@ -1,6 +1,6 @@
 
 import Image from 'next/image'
-import Rutinas from './rutinas/pages'
+import Coach from './coach/page'
 
 
 
@@ -8,8 +8,8 @@ import Rutinas from './rutinas/pages'
 
 export default function Home() {
   return (
-    <main>
-      <Rutinas/>
+    <main className='max-w-[390px]'>
+      <Coach/>
     </main>
   )
 }

@@ -36,7 +36,7 @@ const Rutinas = () => {
 
         <h2 className='text-Turquesa/600 font-semibold text-[27px] pb-5 pl-4'>Categorías</h2>
 
-        <div className='flex flex-col items-center gap-[70px] pl-4 mb-9'>
+        <div className='flex flex-col items-center gap-[70px]  mb-9'>
         <EquilibrioCard/>
         <FlexCard/>
         <FuerzaCard/>
