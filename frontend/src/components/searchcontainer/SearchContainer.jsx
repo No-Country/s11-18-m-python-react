@@ -25,7 +25,7 @@ const SearchContainer = () => {
                </div>
                 <div className='flex items-center gap-2'>
                     <BiImage className='text-3xl'/>
-                    <h3 className='text-sm font-light'>Imágen</h3>
+                    <h3 className='text-sm font-light'>Imagen</h3>
                 </div>
         </div>
     </article>

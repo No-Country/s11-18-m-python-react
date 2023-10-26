@@ -1,7 +1,7 @@
 
 
-import CrearPost from '@/components/crearPost/CrearPost'
 import Image from 'next/image'
+import Rutinas from './rutinas/pages'
 
 
 
@@ -13,8 +13,10 @@ import Image from 'next/image'
 
 export default function Home() {
   return (
-    <main className='min-h-screen flex justify-center bg-black flex-col items-center' >
-      <CrearPost/>
+    <main className='min-h-screen bg-black' >
+
+      <Rutinas/>
+      
     </main>
   )
 }
