@@ -47,18 +47,33 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer = CommmentPostSerializer(data = request.data)
         if serializer.is_valid():
             comment = serializer.save()
-            serializer.update_comment_value({'comment_post': comment.comment_post.id})
+            serializer.update_comment_total_value({'comment_post': comment.comment_post.id})
             return Response({
                 'message': 'Comment created',
                 'Comment': serializer.data
             }, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)     
-'''
-    def partial_update(self, request, *args, **kwargs):
+
+    def partial_update(self, request, pk=None):
         comment = self.get_object()
-        serializer = CommmentPostSerializer(comment, )
-'''
+        serializer = CommmentPostSerializer(comment, data=request.data, partial=True)
+        if serializer.is_valid():
+            hidden = serializer.hide_comment({'id': comment.id,
+                'comment_post': comment.comment_post.id,
+                                     'comment_user': comment.comment_user.id
+                                     })
+            serializer.save()
+            if hidden == 'hidden':
+                return Response({
+                    'message': 'Comment succesfully hidden!'
+                }, status = status.HTTP_200_OK)
+            else:
+                return Response({
+                    'message': 'Comment is no longer hidden!'
+                }, status = status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 class LikeViewSet(viewsets.ModelViewSet):
 

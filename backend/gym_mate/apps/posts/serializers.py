@@ -19,15 +19,14 @@ class PostSerializer(serializers.ModelSerializer):
 class CommmentPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentPost
-        fields = ["comment_content", "comment_post", "comment_user"]
-        #fields = ["comment_content", "comment_post", "comment_user","hide_comment"]
+        fields = ["comment_content", "comment_post", "comment_user","hide_comment"]
 
     def create(self, validated_data):
         comment = CommentPost.objects.create(**validated_data)
         comment.save()               
         return comment
     
-    def update_comment_value(self, validated_data):
+    def update_comment_total_value(self, validated_data):
         post_id = validated_data['comment_post']
         existing_post = Posts.objects.filter(id = post_id).first()        
 
@@ -35,17 +34,25 @@ class CommmentPostSerializer(serializers.ModelSerializer):
             existing_post.total_comments += 1
             existing_post.save(update_fields=['total_comments'])
             return existing_post
-'''
+
     def hide_comment(self, validated_data):
         post_id = validated_data['comment_post']
         user = validated_data['comment_user']
+        comment_id = validated_data['id'] 
         existing_post = Posts.objects.filter(id = post_id).first()  
+        existing_comment = CommentPost.objects.filter(comment_post = post_id, comment_user = user, id = comment_id).first()
 
-        if existing_post:
-            existing_post.hide_comment = True
-            existing_post.save(update_fields=['hide_comment'])
-            return existing_post
-'''
+        if existing_post: 
+            if existing_comment.hide_comment == False:
+                existing_comment.hide_comment = True
+                existing_comment.save(update_fields=['hide_comment'])
+                return 'hidden'
+            else:
+                existing_comment.hide_comment = False
+                existing_comment.save(update_fields=['hide_comment'])
+                return 'visible'              
+
+
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Junction_likes
