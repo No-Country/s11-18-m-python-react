@@ -1,6 +1,6 @@
 
 import Image from 'next/image'
-import Coach from './coach/page'
+import FormVerificacion from './formVerificacion/page'
 
 
 
@@ -9,7 +9,7 @@ import Coach from './coach/page'
 export default function Home() {
   return (
     <main className='max-w-[390px]'>
-      <Coach/>
+      <FormVerificacion/>
     </main>
   )
 }
