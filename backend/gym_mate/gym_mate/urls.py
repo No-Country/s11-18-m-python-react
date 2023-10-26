@@ -18,11 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('apps.users.api.urls')),
     path('api/coach/', include('apps.coach_users.api.urls')),    
     path('posts/', include('apps.posts.routers')),    
-    path('routine/', include('apps.workout_plans.routers'))
+    path('routine/', include('apps.workout_plans.routers')),
+    # path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
+    # path('api/docs/', SpectacularSwaggerView.as_view(url_name='api-schema'), name='api-docs'),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

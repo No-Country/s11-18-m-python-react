@@ -10,6 +10,3 @@ models_to_register = [
 ]
 
 admin.site.register(models_to_register)
-
-
-admin.site.register(models_to_register)

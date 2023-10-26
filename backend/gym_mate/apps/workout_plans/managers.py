@@ -5,7 +5,7 @@ class RoutineManager(models.Manager):
     
     def type_routine(self, **filters):
         
-        if filters["tipo"].capitalize() == 'premium':
+        if filters["tipo"].lower() == 'premium':
             paid = True
             premium = True
             return self.filter(
@@ -13,7 +13,7 @@ class RoutineManager(models.Manager):
             is_user_premium = premium
             ).order_by('created')
             
-        elif filters["tipo"].capitalize() == 'pagas':
+        elif filters["tipo"].lower() == 'pagas':
             paid = True
             premium = False
             return self.filter(
@@ -21,7 +21,7 @@ class RoutineManager(models.Manager):
             is_user_premium = premium
             ).order_by('created')
             
-        elif filters["tipo"].capitalize() == 'free':
+        elif filters["tipo"].lower() == 'free':
             paid = False
             premium = False
             return self.filter(
