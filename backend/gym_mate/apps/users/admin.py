@@ -1,3 +1,8 @@
+# Django
 from django.contrib import admin
+# Models
 
-# Register your models here.
+from .models import User, Followers 
+
+admin.site.register(User)
+admin.site.register(Followers)

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-
+from gym_mate.settings.base import AUTH_USER_MODEL 
 
 #Diet model
 class Diet(models.Model):
@@ -8,6 +8,14 @@ class Diet(models.Model):
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
+#Seguidores
+class Followers(models.Model):
+    follower = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='follower')
+    followed = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_user')
+    
+    def __str__(self):
+        return f"seguidor: {self.follower.username} -- sigue a: {self.followed.username}"
+    
 
 # Creamos el UserManager personalizado con los metodos para crear
 class UserManager(BaseUserManager):
@@ -48,6 +56,8 @@ class UserManager(BaseUserManager):
         
         return user
 
+    #def last_login_update(self):
+     #   user.last_login = 
 
 # Creamos User personalizado
 class User(AbstractUser):
@@ -64,9 +74,10 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=30)
     age = models.PositiveSmallIntegerField(blank=True, null=True)
     height = models.FloatField(blank=True, null=True)
-    weight = models.IntegerField(blank=True, null=True)
+    weight = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='O')
     is_coach = models.BooleanField(default=False)
+    is_premium = models.BooleanField(default=False)
     image_photo = models.ImageField(upload_to='users/img', blank=True, null=True)
     bio = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -77,7 +88,6 @@ class User(AbstractUser):
     
     objects = UserManager()
     
-
         
     def __str__(self):
         return self.username
