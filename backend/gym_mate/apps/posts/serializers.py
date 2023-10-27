@@ -5,11 +5,24 @@ from .models import Posts, CommentPost,Junction_likes,Junction_repost
 
 class PostSerializer(serializers.ModelSerializer):
 
-    class Meta:
+    comments = serializers.SerializerMethodField()
+
+    class Meta:        
         model = Posts
-        fields = ["content",'image_url','video_url','user','id','total_comments','total_likes','total_repost']
+        fields = ["content",'image_url','video_url','user','id','total_comments','total_likes','total_repost','comments']
         read_only_fields = ['total_comments','total_likes','total_repost']
     
+    def get_comments(self, obj):
+        comments_queryset = CommentPost.objects.filter(comment_post=obj.id)
+        all_comments_from_post = []
+        for comment in comments_queryset:
+            data = {
+                'Comment Content': comment.comment_content,
+                'Made by': comment.comment_user.username,
+            }
+            all_comments_from_post.append(data)
+        return all_comments_from_post
+        
     def create(self, validated_data):             
         post = Posts.objects.create(**validated_data)
         post.save()
@@ -18,8 +31,8 @@ class PostSerializer(serializers.ModelSerializer):
 
 class CommmentPostSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CommentPost
-        fields = ["comment_content", "comment_post", "comment_user","hide_comment"]
+        model = CommentPost        
+        fields = ["id","comment_content", "comment_post", "comment_user","hide_comment"]
 
     def create(self, validated_data):
         comment = CommentPost.objects.create(**validated_data)
@@ -52,6 +65,14 @@ class CommmentPostSerializer(serializers.ModelSerializer):
                 existing_comment.save(update_fields=['hide_comment'])
                 return 'visible'              
 
+    def delete_comment(self, validated_data):
+        post_id = validated_data['comment_post']
+        existing_post = Posts.objects.filter(id = post_id).first()   
+    
+        if existing_post:
+            existing_post.total_comments -= 1
+            existing_post.save(update_fields=['total_comments'])
+            return existing_post
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
