@@ -5,7 +5,7 @@ import MenuBar from '@/components/menuBar/MenuBar'
 const FormVerificacion = () => {
   return (
     
-    <main className='max-w-[390px] bg-black min-h-screen'>
+    <main className='w-[412px] h-[1035px] bg-black min-h-screen'>
     <StatusBar/>
     <MenuBar/>
 
@@ -40,7 +40,7 @@ const FormVerificacion = () => {
              border-[1px] w-[380px] h-[40px] rounded-[4px] mt-2 pl-3' />
         </div>
         <div className='text-white w-[380px] h-[72px]'>
-            <label htmlFor="Name">Enlace del título/certificaco</label>
+            <label htmlFor="Name">Enlace del título/certificado</label>
             <input type="text"
             name='certificacion'
             placeholder='Ingresar link'
@@ -52,7 +52,7 @@ const FormVerificacion = () => {
    
     </div>
 
-    <div className='flex justify-center gap-4 pl-4'>
+    <div className='flex justify-center gap-4'>
         <button className='w-[182px] h-[40px] bg-transparent text-Turquesa/600 rounded-[8px]
          border-Turquesa/600 border-[1px] text-[18px]'>
             Cancelar
