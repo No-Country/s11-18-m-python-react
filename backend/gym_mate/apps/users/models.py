@@ -65,9 +65,6 @@ class UserManager(BaseUserManager):
         
         return user
 
-    #def last_login_update(self):
-     #   user.last_login = 
-
 # Creamos User personalizado
 class User(AbstractUser):
 
@@ -100,6 +97,5 @@ class User(AbstractUser):
         
     def __str__(self):
         return self.username
-    
     
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
