@@ -23,16 +23,20 @@ class PostView(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = Posts.objects.all().order_by("-created")
-        serializer = PostSerializer(queryset, many=True)
-        data = serializer.data
+        
+        filtered_by_user = self.request.query_params.get('created-by')
+        if filtered_by_user:            
+            queryset = Posts.objects.filter(user=filtered_by_user).order_by("-created")
 
+        serializer = PostSerializer(queryset, many=True)
+        data = serializer.data    
         return Response(data)
 
     def retrieve(self, request, pk=None):
         queryset = Posts.objects.all()
         post = get_object_or_404(queryset, pk=pk)
         serializer = PostSerializer(post)
-        return Response(serializer.data)
+        return Response(serializer.data)    
 
 
 class CommentViewSet(viewsets.ModelViewSet):
