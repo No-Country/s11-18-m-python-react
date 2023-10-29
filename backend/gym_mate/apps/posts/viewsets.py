@@ -23,20 +23,20 @@ class PostView(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = Posts.objects.all().order_by("-created")
-        
-        filtered_by_user = self.request.query_params.get('created-by')
-        if filtered_by_user:            
+
+        filtered_by_user = self.request.query_params.get("created-by")
+        if filtered_by_user:
             queryset = Posts.objects.filter(user=filtered_by_user).order_by("-created")
 
         serializer = PostSerializer(queryset, many=True)
-        data = serializer.data    
+        data = serializer.data
         return Response(data)
 
     def retrieve(self, request, pk=None):
         queryset = Posts.objects.all()
         post = get_object_or_404(queryset, pk=pk)
         serializer = PostSerializer(post)
-        return Response(serializer.data)    
+        return Response(serializer.data)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -83,20 +83,17 @@ class CommentViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
     def destroy(self, request, pk=None):
         comment = self.get_object()
         serializer = CommmentPostSerializer(comment, data=request.data)
-        serializer.delete_comment(
-                {"comment_post": comment.comment_post.id}
-            )
+        serializer.delete_comment({"comment_post": comment.comment_post.id})
         comment.delete()
         return Response(
-                {
-                    "message": "Comment succesfully deleted",
-                },
-                status=status.HTTP_200_OK,
-            )
+            {
+                "message": "Comment succesfully deleted",
+            },
+            status=status.HTTP_200_OK,
+        )
 
 
 class LikeViewSet(viewsets.ModelViewSet):
@@ -120,6 +117,20 @@ class LikeViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    # Filter: Liked by <user_id>
+    def list(self, request, *args, **kwargs):
+        queryset = Junction_likes.objects.all().order_by("-created")
+
+        filtered_by_user = self.request.query_params.get("liked-by")
+        if filtered_by_user:
+            queryset = Junction_likes.objects.filter(
+                likes_user=filtered_by_user
+            ).order_by("-created")
+
+        serializer = LikeSerializer(queryset, many=True)
+        data = serializer.data
+        return Response(data)
+
 
 class RepostViewSet(viewsets.ModelViewSet):
     serializer_class = RepostSerializer
@@ -141,3 +152,17 @@ class RepostViewSet(viewsets.ModelViewSet):
                 )
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Filter: Reposted by <user_id>
+    def list(self, request, *args, **kwargs):
+        queryset = Junction_repost.objects.all().order_by("-created")
+
+        filtered_by_user = self.request.query_params.get("reposted-by")
+        if filtered_by_user:
+            queryset = Junction_repost.objects.filter(
+                repost_user=filtered_by_user
+            ).order_by("-created")
+
+        serializer = RepostSerializer(queryset, many=True)
+        data = serializer.data
+        return Response(data)
