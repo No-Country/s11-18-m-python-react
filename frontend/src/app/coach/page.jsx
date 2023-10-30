@@ -8,7 +8,7 @@ import React from 'react'
 
 const Coach = () => {
   return (
-   <main className='max-w-[390px] bg-black min-h-screen'>
+   <main className=' w-[412px] h-[1035px] bg-black min-h-screen'>
     <StatusBar/>
     <MenuBar/>
 
@@ -49,7 +49,7 @@ const Coach = () => {
 
     </div>
     
-    <div className='flex justify-center items-end mt-44'>
+    <div className='flex justify-center items-end mt-[340px]'>
     <div className='border-[2px] border-white w-[105px]'></div>
     </div>
 

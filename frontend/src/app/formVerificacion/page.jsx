@@ -3,6 +3,8 @@ import StatusBar from '@/components/statusBar/StatusBar'
 import MenuBar from '@/components/menuBar/MenuBar'
 
 const FormVerificacion = () => {
+
+    
   return (
     
     <main className='w-[412px] h-[1035px] bg-black min-h-screen'>
@@ -63,7 +65,7 @@ const FormVerificacion = () => {
         </button>
     </div>
 
-    <div className='flex justify-center items-end mt-44'>
+    <div className='flex justify-center items-end mt-[340px'>
     <div className='border-[2px] border-white w-[105px]'></div>
     </div>
 
