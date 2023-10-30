@@ -2,20 +2,29 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from gym_mate.settings.base import AUTH_USER_MODEL 
 
+from .managers import CustomUserManager
+
 #Diet model
 class Diet(models.Model):
     name_diet = models.CharField(max_length=30)
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name_diet
 
 #Seguidores
 class Followers(models.Model):
     follower = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='follower')
     followed = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_user')
     
+    class Meta:
+        verbose_name = 'Follower'
+        verbose_name_plural = 'Followers'
+        
     def __str__(self):
         return f"seguidor: {self.follower.username} -- sigue a: {self.followed.username}"
-    
+     
 
 # Creamos el UserManager personalizado con los metodos para crear
 class UserManager(BaseUserManager):
@@ -56,9 +65,6 @@ class UserManager(BaseUserManager):
         
         return user
 
-    #def last_login_update(self):
-     #   user.last_login = 
-
 # Creamos User personalizado
 class User(AbstractUser):
 
@@ -87,10 +93,9 @@ class User(AbstractUser):
     #diet = models.OneToOneField(Diet, on_delete=models.SET_NULL)
     
     objects = UserManager()
-    
+    custom_objects = CustomUserManager()
         
     def __str__(self):
         return self.username
-    
     
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
