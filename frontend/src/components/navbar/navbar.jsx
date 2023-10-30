@@ -3,11 +3,11 @@ import StatusBar from './statusBar/StatusBar'
 import MenuBar from './menuBar/MenuBar'
 import SearchBar from './searchBar/SearchBar'
 
-function NavBar() {
+function NavBar({textLogo}) {
   return (
     <>
     <StatusBar/>
-    <MenuBar/>
+    <MenuBar logo={textLogo}/>
     <SearchBar/>
     
     

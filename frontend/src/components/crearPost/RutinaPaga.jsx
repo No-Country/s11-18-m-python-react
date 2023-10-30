@@ -8,7 +8,7 @@ import { PiShareFatDuotone } from "react-icons/pi";
 const RutinaPaga = () => {
   return (
 
-    <article className='w-[380px] h-[449px] bg-zinc-800 rounded-[8px] text-white'>
+    <article className='w-[380px] h-[460px] bg-zinc-800 rounded-[8px] text-white'>
 
       <div className='flex justify-between px-3 py-5'>
 
@@ -46,7 +46,7 @@ const RutinaPaga = () => {
         src="https://images.pexels.com/photos/3253501/pexels-photo-3253501.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="img rutina paga" />
     </div>
 
-    <div className='flex justify-between items-center px-5 pb-3'>
+    <div className='flex text-xl items-center justify-between px-5 pb-1'>
     <div className='flex text-xl'>
         <AiOutlineLike className=' text-blue-800'/>
         <BiSolidHeartCircle className='text-red-600'/>
@@ -59,7 +59,7 @@ const RutinaPaga = () => {
 
     <div className='border-[1px] border-zinc-500 w-[345px] ml-4'></div>
 
-    <div className='flex justify-end pr-3 pt-4 gap-4 text-xl'>
+    <div className='flex justify-end pr-3 pt-3 gap-4 text-xl'>
     <AiOutlineLike/>
     <BiComment/>
     <PiShareFatDuotone/>

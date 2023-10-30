@@ -12,7 +12,8 @@ export const  ROUTINECONTENT =  [{
     img: "https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     title: "Fortalecimiento con pesas",
     number: 6
-  },{
+  },
+  {
     RoutineID: 2,
     type: {
       typeid: 1,

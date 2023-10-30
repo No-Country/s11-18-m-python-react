@@ -3,19 +3,20 @@ import { AiOutlineClose } from "react-icons/ai";
 import Avatar from '../avatar/Avatar';
 import {BiImage} from "react-icons/bi";
 import {LuClapperboard} from "react-icons/lu";
+import Link from 'next/link';
 
 
 const CrearPost = () => {
   return (
     <article className='w-[380px] h-[848px] bg-zinc-800 rounded-[8px]
-     text-white border-[2px] border-zinc-600'>
+     text-white border-[2px] border-zinc-600 m-1'>
         <div className='ml-24 flex items-center justify-center pt-4 gap-[128px]'>
             <h2 className='font-medium text-[18px]'>
                 Crear post
             </h2>
-            <button>
+            <Link href={"/a"}>
             <AiOutlineClose className='text-[24px]'/>
-            </button>
+            </Link>
         </div>
 
         <div className='border-[1px] border-zinc-500 my-4 w-[345px] ml-4'></div>

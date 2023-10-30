@@ -1,20 +1,21 @@
 import React from 'react'
 import {LuClapperboard} from "react-icons/lu";
 import {BiImage} from "react-icons/bi";
+import InputTextComp from './InputComp/InputTextComp';
 
 
 const SearchContainer = () => {
   return (
-    <article className='w-[380px] h-[120px] bg-zinc-800 rounded-[8px] flex flex-col my-2'>
+    <div className='w-full flex justify-center items-center mt-2'>
+
+   
+    <article className='w-[380px] h-[120px] bg-zinc-800 rounded-[8px] flex flex-col my-2 px-2'>
         <div className='flex gap-2 justify-center pt-5'>
             <img className='rounded-full border-Turquesa/500 border-[2px] w-[32px] h-[32px]'
              src="https://images.pexels.com/photos/1229356/pexels-photo-1229356.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
 
              
-            <input  type="text" 
-            className='bg-zinc-700 rounded-[16px] w-[308px] h-[32px] outline-none pl-2' 
-             placeholder='¿Qué estás pensando, Manuel?...'
-             name='search' />
+            <InputTextComp/>
              
         </div>
         <span className='border-[1px] border-zinc-500 mt-4 w-[345px] ml-4'></span>
@@ -29,6 +30,7 @@ const SearchContainer = () => {
                 </div>
         </div>
     </article>
+    </div>
   )
 }
 

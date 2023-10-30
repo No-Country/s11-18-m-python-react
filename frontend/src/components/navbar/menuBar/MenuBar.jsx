@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import React from 'react'
 import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
+import ShowLogo from './showBar/ShowLogo';
 
 
 
-const MenuBar = () => {
+const MenuBar = ({logo}) => {
   return (
     <article className='w-full h-[64px] bg-Turqusa/200 flex justify-between items-center px-[45px]'>
         <div className='flex text-white text-2xl gap-2'>
@@ -13,14 +14,7 @@ const MenuBar = () => {
             <AiOutlineSearch />
         </div>
         <Link href="/a" className='rounded-full'>
-        <div className='bg-black w-[48px] h-[48px] rounded-full flex justify-center items-center'>
-         
-            <h1 className='text-white'>
-                logo
-            </h1>
-            
-            
-        </div>
+<ShowLogo text={logo} />
         </Link>
 
         <div className='rounded-full w-[48px] h-[48px]'>

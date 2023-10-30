@@ -8,7 +8,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
       <>
-      <NavBar/>
+      <NavBar textLogo={"logo"}/>
       {children}
       
       </>
