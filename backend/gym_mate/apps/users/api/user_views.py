@@ -186,7 +186,8 @@ class UserViewPerfilAPIView(APIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-# Follow
+# Follow 
+# arreglar si ya existe
 class UserFollowAPIView(APIView):
     
     authentication_classes = [CustomTokenAuthentication] 
