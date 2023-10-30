@@ -8,7 +8,6 @@ function Suscribite() {
         <span className='text-xl text-Blanco'>Disfruta los beneficios de ser premium</span>
         <div className='grid grid-cols-2 gap-2 mt-5  '> 
         <CardMenAn/>
-
         </div>
     </div>
   )

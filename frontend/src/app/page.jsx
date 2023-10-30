@@ -1,6 +1,5 @@
 
-import Image from 'next/image'
-import Rutinas from './rutinas/pages'
+import OnboardingPage from './onboarding/page'
 
 
 
@@ -9,7 +8,7 @@ import Rutinas from './rutinas/pages'
 export default function Home() {
   return (
     <main>
-      <Rutinas/>
+      <OnboardingPage/>
     </main>
   )
 }

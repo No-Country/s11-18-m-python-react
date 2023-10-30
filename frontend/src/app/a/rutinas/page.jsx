@@ -3,20 +3,15 @@ import FlexCard from '@/components/categoryCard/FlexCard'
 import FuerzaCard from '@/components/categoryCard/FuerzaCard'
 import ResistCard from '@/components/categoryCard/ResistCard'
 import FiltrosBar from '@/components/filtrosBar/FiltrosBar'
-import MenuBar from '@/components/menuBar/MenuBar'
-import RutinesCard from '@/components/rutinesCard/RutinesCard'
-import SearchBar from '@/components/searchBar/SearchBar'
-import StatusBar from '@/components/statusBar/StatusBar'
+import RutinesCard from '@/components/HomeComp/rutinesCard/RutinesCard'
 import TabsBar from '@/components/tabsBar/TabsBar'
 import React from 'react'
+import NavBar from '@/components/navbar/navbar'
 
 const Rutinas = () => {
   return (
-    <section className='min-h-screen max-w-[390px] bg-black'>
+    <section className='min-h-screen w-full bg-black'>
 
-        <StatusBar/>
-        <MenuBar/>
-        <SearchBar/>
 
         <div className='pl-4 py-7'>
         <FiltrosBar/>
