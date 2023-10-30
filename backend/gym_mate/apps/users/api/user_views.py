@@ -225,11 +225,11 @@ class UserUnfollowAPIView(APIView):
                     
                 return Response({
                     'message': f'User {user_followed.username} unfollowed!'
-                })
+                }, status=status.HTTP_200_OK)
         
         return Response({
             'error':'not unfollow'
-        })
+        }, status=status.HTTP_404_NOT_FOUND)
 
 # Home-search 
 class UserSearchAPIView(APIView):
@@ -252,7 +252,7 @@ class UserSearchAPIView(APIView):
                 
         return Response({
             'error': 'not search'
-        })
+        }, status=status.HTTP_404_NOT_FOUND)
         
 # Home-followeds
 
@@ -269,7 +269,7 @@ class UserFollowedsAPIView(APIView):
         
         return Response({
             'user': user_serializer.data
-        })
+        }, status=status.HTTP_200_OK)
         
 class CoachAPIView(APIView):
     
