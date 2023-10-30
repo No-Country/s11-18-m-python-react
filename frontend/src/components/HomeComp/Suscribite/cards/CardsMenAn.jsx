@@ -1,7 +1,7 @@
 
 const CARDSCONTENT = [
     {
-        id: 1,
+        Subs_id: 1,
         title: "Mensual",
         subtitle: "3800",
         content: {
@@ -11,7 +11,7 @@ const CARDSCONTENT = [
         }
     },
     {
-        id: 2,
+        Subs_id: 2,
         title: "anual",
         subtitle: "41000",
         content: {
@@ -26,7 +26,7 @@ const CARDSCONTENT = [
 export default function CardMenAn () {
     return CARDSCONTENT.map((cards) => {
             return(
-<div key={cards.id} className="bg-Negro border-2 border-Turquesa/600 rounded-md text-Blanco flex  flex-col justify-center items-center w-fit h-fit px-2 py-3">
+<div key={cards.Subs_id} className="bg-Negro border-2 border-Turquesa/600 rounded-md text-Blanco flex  flex-col justify-center items-center w-fit h-fit px-2 py-3">
             <h4 className="text-Turquesa/600 first-letter:uppercase font-semibold text-center text-3xl mt-1">{cards.title}</h4>
             <span className="text-Blanco text-xl text-center  ">${cards.subtitle}</span>        
             

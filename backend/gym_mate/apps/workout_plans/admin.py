@@ -9,11 +9,13 @@ models_to_register = [
     CommentsRoutine,
     RoutineAsignation,
     RoutineRating,
-    WeekDays,
+    WeekDay,
+    Set,
     Workout,
-    Junction_DaysRoutineWorkout,
     WorkoutImage,
-    WorkoutVideo
+    WorkoutVideo,
+    Categories,
+    RoutineFavorite
 ]
 
 admin.site.register(models_to_register)
