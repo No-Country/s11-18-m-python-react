@@ -24,5 +24,5 @@ urlpatterns = [
     path('api/', include('apps.users.api.urls')),
     path('api/coach/', include('apps.coach_users.api.urls')),    
     path('posts/', include('apps.posts.routers')),    
-    path('routine/', include('apps.workout_plans.routers'))
+    path('routine/', include('apps.workout_plans.routers')),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -19,6 +19,7 @@ class CommentPost(TimeStampedModel):
     comment_content = models.CharField(max_length=256)
     comment_post =  models.ForeignKey(Posts, on_delete=models.CASCADE)
     comment_user = models.ForeignKey(User, on_delete = models.CASCADE)    
+    hide_comment = models.BooleanField(default=False)
 
     # def __str__(self):
     #     return f'Comment by {self.comment_user_id} on {self.comment_post_id}'

@@ -1,19 +1,34 @@
-import CoachesDest from '@/components/Coaches/Coaches'
-import PostPage from '@/components/Posts/post'
-import Suscribite from '@/components/Suscribite/Suscribite'
+
+<<<<<<< HEAD
+import OnboardingPage from './onboarding/page'
+=======
 import Image from 'next/image'
-import MenuBar from '@/components/menuBar/MenuBar'
-import CarruselProfiles from '@/components/carruselProfiles/CarruselProfiles'
-import SearchContainer from '@/components/searchcontainer/SearchContainer'
+import CrearSet from './crearSet/page'
+
+
+
+
+
+
+
+
+>>>>>>> 5a8413034bdaf13ff94d1c7c011e71b724b5dfc9
+
+
+
+
 
 export default function Home() {
   return (
+<<<<<<< HEAD
     <main>
-      <MenuBar/>
-      <CarruselProfiles/>
-      <SearchContainer/>
-        <Suscribite/>
-    <CoachesDest/>
+      <OnboardingPage/>
+=======
+    <main className=''>
+
+      <CrearSet/>
+      
+>>>>>>> 5a8413034bdaf13ff94d1c7c011e71b724b5dfc9
     </main>
   )
 }
