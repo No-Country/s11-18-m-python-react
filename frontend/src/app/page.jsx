@@ -1,6 +1,12 @@
 
 import Image from 'next/image'
-import CrearEjercicios from './crearEjercicios/page'
+import CrearSet from './crearSet/page'
+
+
+
+
+
+
 
 
 
@@ -12,7 +18,7 @@ export default function Home() {
   return (
     <main className=''>
 
-      <CrearEjercicios/>
+      <CrearSet/>
       
     </main>
   )

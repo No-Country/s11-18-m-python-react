@@ -84,7 +84,7 @@ const CrearEjercicios = () => {
 </div>
 
 
-<div className='flex justify-center items-end mt-[310px]'>
+<div className='flex justify-center items-end mt-[610px]'>
 <div className='border-[2px] border-white w-[105px]'></div>
 </div>
 
