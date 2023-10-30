@@ -11,6 +11,7 @@ from .models import (
     RoutineRating,
     Workout,
     Set,
+    WeekDay,
     Categories,
     RoutineFavorite
 )
@@ -29,6 +30,7 @@ from .serializers import (
     WorkoutSerializer,
     WorkoutSerializersRetrieve,
     WorkoutSerializerList,
+    WeekDaySerializer,
     CategoriesRoutineSerializers,
     CategoriesRoutineRetriveSerializers,
     RoutineFavoriteSerializers,
@@ -247,3 +249,16 @@ class SetViewSets(viewsets.ModelViewSet):
         instance = self.get_object()
         serializer = SetSerializerRetrieve(instance)
         return Response(serializer.data)
+
+
+class WeekDayViewSets(viewsets.ModelViewSet):
+    serializer_class = WeekDaySerializer
+    pagination_class = PaginationSerializer
+    queryset = WeekDay.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        day_serializer = WeekDaySerializer(data=request.data, many=True)
+        day_serializer.is_valid(raise_exception=True)
+        self.perform_create(day_serializer)
+        headers = self.get_success_headers(day_serializer.data)
+        return Response(day_serializer.data, headers=headers)

@@ -362,7 +362,7 @@ class SetSerializerList(serializers.ModelSerializer):
 
 class SetSerializerRetrieve(serializers.ModelSerializer):
     """Class representing a Set Serializer. Method retrieve"""
-    workouts = WorkoutSerializerList(many=True)
+    workout_set = WorkoutSerializerList(many=True)
 
     class Meta:
         model = Set
@@ -371,7 +371,7 @@ class SetSerializerRetrieve(serializers.ModelSerializer):
             "set_name",
             "id_routine",
             "created",
-            "workouts"
+            "workout_set"
         ]
 
 

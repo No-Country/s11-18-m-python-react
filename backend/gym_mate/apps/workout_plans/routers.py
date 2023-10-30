@@ -17,6 +17,7 @@ router.register(r'asignation', viewsets.RoutineAsignationViewSets, basename="asi
 router.register(r'rating', viewsets.RoutineRatingViewSets, basename="rating")
 router.register(r'workout', viewsets.WorkoutViewSets, basename='Workout')
 router.register(r'set', viewsets.SetViewSets, basename='Set')
+router.register(r'set-weekdays', viewsets.WeekDayViewSets, basename='set-weekdays')
 router.register(r'performance-note-workout', viewsets.PerformanceNoteWorkoutViewSets, basename="performance")
 
 
