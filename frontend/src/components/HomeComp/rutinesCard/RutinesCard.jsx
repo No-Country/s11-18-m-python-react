@@ -23,7 +23,7 @@ const  RutinesCard =  () => {
   
     return(
 
-      <article className='w-[359px] h-[192px]  mx-2   bg-Turquesa/500 rounded-[8px] relative my-2 p-1' >
+      <article key={routine.RoutineID} className='w-[359px] h-[192px]  mx-2   bg-Turquesa/500 rounded-[8px] relative my-2 p-1' >
           <BsBookmarks className='text-white absolute top-3 right-3 w-[28px] h-[28px]'/>
           <div className='w-[30px] h-[30px] bg-Turquesa/500 text-black
            rounded-[8px] absolute top-3 left-3   flex items-center justify-center' key={routine.type.typeid}>
@@ -33,7 +33,7 @@ const  RutinesCard =  () => {
               <Image src={routine.img}  className='rounded-[8px]' width={100} height={100} alt={routine.title} />
           </div>
           <div className='flex items-center justify-between gap-3 px-3 pt-3'>
-        <Link key={routine.RoutineID} href={`/a/${routine.RoutineID}`}>
+        <Link  href={`/a/${routine.RoutineID}`}>
               <h3 className='font-semibold'>
                   {routine.title}
               </h3>
