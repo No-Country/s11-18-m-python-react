@@ -24,9 +24,14 @@ const CARDSCONTENT = [
 
 
 export default function CardMenAn () {
-    return CARDSCONTENT.map((cards) => {
+    return (
+        <div className="flex overflow-x-scroll pb-10 hide-scroll-bar gap-4 mt-4 ">
+        <div className="flex flex-nowrap">
+
+        
+        {CARDSCONTENT.map((cards) => {
             return(
-<div key={cards.Subs_id} className="bg-Negro border-2 border-Turquesa/600 rounded-md text-Blanco flex  flex-col justify-center items-center w-fit h-fit px-2 py-3">
+<div key={cards.Subs_id} className="bg-Negro border-2 border-Turquesa/600 rounded-md text-Blanco flex  flex-col justify-center mx-2 items-center w-[300px] h-fit  py-5">
             <h4 className="text-Turquesa/600 first-letter:uppercase font-semibold text-center text-3xl mt-1">{cards.title}</h4>
             <span className="text-Blanco text-xl text-center  ">${cards.subtitle}</span>        
             
@@ -42,6 +47,9 @@ export default function CardMenAn () {
 
             </div>
             )
-        })
+        })}
+        </div>
+        </div>
+        )
     }
    

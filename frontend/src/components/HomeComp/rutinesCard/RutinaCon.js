@@ -12,7 +12,8 @@ export const  ROUTINECONTENT =  [{
     img: "/images/rutinasfree.png",
     title: "Fortalecimiento con pesas",
     number: 6
-  },{
+  },
+  {
     RoutineID: 2,
     type: {
       typeid: 1,

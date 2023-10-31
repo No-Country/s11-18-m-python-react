@@ -12,6 +12,12 @@ class FollowersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Followers
         fields = ('follower', 'followed')
+        
+class FollowedHomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'is_coach', 'is_premium', 'image_photo')
+        
 
 class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,18 +56,23 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(allow_blank=False)
 
-        
-    def validate_password(self, value):
-        email = self.initial_data.get('email')
-        
+    def validate_email(self, value):
         try:
-            user = User.objects.get(email=email)
+            User.objects.get(email=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("Email not exist")
+        return value   
+         
+    def validate_password(self, value):
+        email = self.initial_data.get('email')  
+ 
+        user = User.objects.filter(email=email).first()     
+        if user:
             if not check_password(value, user.password):
                 raise serializers.ValidationError("Invalid password")
-        except User.DoesNotExist:
-            raise serializers.ValidationError("User not found")
+    
         return value
     
     def validate(self, data):
@@ -88,12 +99,13 @@ class UserViewPerfilSerializer(serializers.ModelSerializer):
     
     posts = PostSerializer(many=True, read_only=True, source='user_posts')
     rating_coach = RatingCoachSerializer(many=True, read_only=True, source='ratings_received')
+    rating_coach_average = RatingCoachSerializer(many=True, read_only=True, source='ratings_received')
     followers_users = FollowersSerializer(many=True, read_only=True, source='followed_user')
     followed_users = FollowersSerializer(many=True, read_only=True, source='follower')
     
     class Meta:
         model = User 
-        fields = ('id','username','first_name', 'last_name', 'is_coach','rating_coach', 'bio', 'image_photo', 'posts', 'followers_users', 'followed_users')
+        fields = ('id','username','first_name', 'last_name', 'is_coach', 'rating_coach_average', 'rating_coach', 'bio', 'image_photo', 'posts', 'followers_users', 'followed_users')
         
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -108,21 +120,51 @@ class UserViewPerfilSerializer(serializers.ModelSerializer):
         data['followers_users'] = count_followers 
         data['followed_users'] = count_followeds
         
+        #rating_coach_average
+        rating_total = 0
+        for rating_data in (data['rating_coach_average']):
+            rating_total += rating_data['rating']
+      
+        if len(data['rating_coach']) != 0:
+            rating_average = rating_total / len(data['rating_coach'])
+            data['rating_coach_average'] = rating_average
+        
+        
         #is coach
         is_coach = data.get('is_coach')
         if is_coach == False:
             data.pop('rating_coach')
+            data.pop('rating_coach_average')
             
         for post_data in data['posts']:
-            post_data.pop('user_id')
+            post_data.pop('id')
+            post_data.pop('user')
         
         return data
+    
+    
+class UserFollowedsSerializer(serializers.ModelSerializer):
+    
+    followed_users = FollowersSerializer(many=True, read_only=True, source='follower')
+    class Meta:
+        model = User 
+        fields = ('id', 'username', 'followed_users')
+        
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        
+        updated_followed_users = []
+        
+        for followed_user in data['followed_users']:
+            user = User.objects.filter(pk = followed_user['followed']).first()
+            
+            followed_serializer = FollowedHomeSerializer(user)
+            updated_followed_users.append(followed_serializer.data) 
+            
+        data['followed_users'] = updated_followed_users 
+        return data
 
-#not
-#class UserDetailSerializer(serializers.ModelSerializer):
-#    class Meta:
-#        model = User 
-#        fields = ('username', 'first_name', 'last_name', 'is_coach', 'image_photo', 'bio')
     
 
         

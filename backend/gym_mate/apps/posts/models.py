@@ -5,7 +5,7 @@ from apps.users.models import User
 
 
 class Posts(TimeStampedModel):
-    content = models.CharField(max_length=256,blank=True)
+    content = models.TextField(blank=True)
     user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='user_posts')
     image_url = models.ImageField(upload_to='posts/img',blank= True, null= True)
     video_url = models.FileField(upload_to='posts/videos',blank= True, null= True)
@@ -16,9 +16,10 @@ class Posts(TimeStampedModel):
 
 
 class CommentPost(TimeStampedModel):
-    comment_content = models.CharField(max_length=256)
+    comment_content = models.TextField()
     comment_post =  models.ForeignKey(Posts, on_delete=models.CASCADE)
     comment_user = models.ForeignKey(User, on_delete = models.CASCADE)    
+    hide_comment = models.BooleanField(default=False)
 
     # def __str__(self):
     #     return f'Comment by {self.comment_user_id} on {self.comment_post_id}'

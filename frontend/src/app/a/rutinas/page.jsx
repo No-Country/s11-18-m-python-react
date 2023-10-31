@@ -1,12 +1,9 @@
-import EquilibrioCard from '@/components/categoryCard/EquilibrioCard'
-import FlexCard from '@/components/categoryCard/FlexCard'
-import FuerzaCard from '@/components/categoryCard/FuerzaCard'
-import ResistCard from '@/components/categoryCard/ResistCard'
+import CategoryCardComp from '@/components/categoryCard/EquilibrioCard'
+
 import FiltrosBar from '@/components/filtrosBar/FiltrosBar'
 import RutinesCard from '@/components/HomeComp/rutinesCard/RutinesCard'
 import TabsBar from '@/components/tabsBar/TabsBar'
 import React from 'react'
-import NavBar from '@/components/navbar/navbar'
 
 const Rutinas = () => {
   return (
@@ -32,10 +29,7 @@ const Rutinas = () => {
         <h2 className='text-Turquesa/600 font-semibold text-[27px] pb-5 pl-4'>Categorías</h2>
 
         <div className='flex flex-col items-center gap-[70px]  mb-9'>
-        <EquilibrioCard/>
-        <FlexCard/>
-        <FuerzaCard/>
-        <ResistCard/>
+      <CategoryCardComp/>
         </div>
 
         <div className='bg-white w-28  h-[5px] mt-32 mb-4 ml-[150px]'></div>

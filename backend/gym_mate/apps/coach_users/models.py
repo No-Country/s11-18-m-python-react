@@ -2,11 +2,7 @@ from django.db import models
 from apps.users.models import User
 from django.conf import settings
 
-
-
-
 #Coach models
-
 class Rating_Coach(models.Model):
     rating = models.IntegerField()
     text = models.TextField()
@@ -14,6 +10,7 @@ class Rating_Coach(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='ratings_given')
     rated_coach = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='ratings_received')
+
 
 class Verification_Coach(models.Model):
     degree = models.CharField(max_length=50)

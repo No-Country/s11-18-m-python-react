@@ -5,12 +5,12 @@ import Image from 'next/image';
 
 
 
-const MenuBar = () => {
+const MenuBar = ({logo}) => {
   return (
     <article className='w-full h-[64px] bg-Turqusa/200 flex justify-between items-center px-3'>
         <div className='flex text-white text-2xl gap-2'>
-            <AiOutlineMenu/>
-            
+           
+            <HamMenu/>
             <AiOutlineSearch />
         </div>
         <Link href="/a" className='rounded-full'>
