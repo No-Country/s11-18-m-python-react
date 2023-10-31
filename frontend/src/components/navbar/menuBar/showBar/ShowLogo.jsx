@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import React from 'react'
 
 function ShowLogo({ showLogo, text }) {

@@ -30,7 +30,7 @@ const  RutinesCard =  () => {
             {routine.type.src}
               </div>
           <div className='w-full h-[144px] rounded-[8px]   flex justify-center items-center '>
-              <img src={routine.img}  className='rounded-[8px]  w-full h-full    ' alt={routine.title} />
+              <Image src={routine.img}  className='rounded-[8px]' width={100} height={100} alt={routine.title} />
           </div>
           <div className='flex items-center justify-between gap-3 px-3 pt-3'>
         <Link key={routine.RoutineID} href={`/a/${routine.RoutineID}`}>
