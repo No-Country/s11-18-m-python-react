@@ -4,6 +4,7 @@ import { BiSolidHeartCircle, BiComment } from "react-icons/bi";
 import { AiOutlineLike } from "react-icons/ai";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { PiShareFatDuotone } from "react-icons/pi";
+import Image from 'next/image';
 
 const RutinaPaga = () => {
   return (
@@ -42,8 +43,8 @@ const RutinaPaga = () => {
     </div>
 
     <div className='w-[380px] h-[184px] pb-2'>
-        <img className='w-full h-full object-cover' 
-        src="https://images.pexels.com/photos/3253501/pexels-photo-3253501.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="img rutina paga" />
+        <Image width={380} height={184}
+        src="/images/publicacioncoach.png" alt="img rutina paga" />
     </div>
 
     <div className='flex justify-between items-center px-5 pb-3'>
@@ -59,7 +60,7 @@ const RutinaPaga = () => {
 
     <div className='border-[1px] border-zinc-500 w-[345px] ml-4'></div>
 
-    <div className='flex justify-end pr-3 pt-4 gap-4 text-xl'>
+    <div className='flex justify-end pr-3 pt-2 gap-4 text-xl'>
     <AiOutlineLike/>
     <BiComment/>
     <PiShareFatDuotone/>

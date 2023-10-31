@@ -4,6 +4,7 @@ import { BiSolidHeartCircle, BiComment } from "react-icons/bi";
 import { AiOutlineLike } from "react-icons/ai";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { PiShareFatDuotone } from "react-icons/pi";
+import Image from 'next/image';
 
 const RutinaGenerico = () => {
   return (
@@ -39,8 +40,8 @@ const RutinaGenerico = () => {
   </div>
 
   <div className='w-[380px] h-[184px] pb-2'>
-      <img className='w-full h-full object-cover' 
-      src="https://images.pexels.com/photos/4164465/pexels-photo-4164465.jpeg?auto=compress&cs=tinysrgb&w=600" alt="img rutina paga" />
+      <Image width={380} height={184} 
+      src="/images/publicaciongenerico.png" alt="img rutina paga" />
   </div>
 
   <div className='flex text-xl items-center justify-start px-5 pb-3'>
