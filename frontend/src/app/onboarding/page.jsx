@@ -2,11 +2,16 @@ import Link from 'next/link';
 import React from 'react'
 import { MdKeyboardArrowRight } from "react-icons/md";
 
+
+
+
+
 const OnboardingPage = () => {
   return (
-    <article className='bg-Turquesa/300 w-full h-[748px] min-h-screen flex flex-col justify-between
-    bg-[url("https://images.pexels.com/photos/290416/pexels-photo-290416.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")]
-     object-contain bg-cover'>
+
+   <>
+    <article className=' w-full h-[748px] min-h-screen flex flex-col justify-between
+     object-contain absolute z-10 '>
       <div className='flex items-center justify-end text-white pt-2 pr-2'>
        <Link href={"/a"}>
        
@@ -44,6 +49,14 @@ const OnboardingPage = () => {
       <div className='border-[2px] border-white mt-4 w-[105px] ml-4 flex pl-16'></div>
       </div>
     </article>
+   
+
+    <div className='  bg-[url("/images/onboarding.png")]
+    w-full h-[748px] min-h-screen flex flex-col justify-between
+    object-cover bg-cover absolute top-0 opacity-30'>
+    </div>
+    
+    </>
   )
 }
 

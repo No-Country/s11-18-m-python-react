@@ -7,7 +7,7 @@ import React from 'react'
 
 const Coach = () => {
   return (
-   <main className=' w-[412px] h-[1035px] bg-black min-h-screen'>
+   <main className=' w-full h-full bg-black min-h-screen flex flex-col justify-center'>
  
 
     <div className='px-4'>
@@ -24,7 +24,7 @@ const Coach = () => {
         </p>
     </div>
 
-    <div className='flex justify-center items-center gap-6 py-4'>
+    <div className='flex justify-center items-center gap-6 py-4 border-2'>
     <Avatar/>
     <PiArrowFatRightLight className="text-Turquesa/600 w-[52px] h-[36px]"/>
     <div className='rounded-full w-[80px] h-[80px]'>
@@ -33,22 +33,22 @@ const Coach = () => {
     </div>
 
     <div>
-    <p className='py-8 text-[18px] text-white font-light'>
+    <p className='py-8 text-[18px] text-white font-light '>
     Una vez que tu perfil sea verificado tu avatar 
         <br />
          será distinguido como el de un coach.
         </p>
     </div>  
 
-    <button className='w-[380px] h-[40px] text-black rounded-[8px]
-     my-8 bg-Turquesa/700 flex items-center justify-center gap-[10px] text-[18px]'>
+    <button className='w-full h-[40px] text-black rounded-[8px]
+     my-8 bg-Turquesa/700 flex items-center justify-center gap-[10px] text-[18px]' >
         <span><AiOutlineCheck/></span>Verificar perfil
     </button>
 
     </div>
     
     <div className='flex justify-center items-end mt-[340px]'>
-    <div className='border-[2px] border-white w-[105px]'></div>
+    <div className='border-[2px] border-white w-[105px] mb-2 rounded-xl'></div>
     </div>
 
    </main>

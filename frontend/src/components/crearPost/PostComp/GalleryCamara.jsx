@@ -94,7 +94,7 @@ function GalleryCamara() {
           Cámara
         </h2>
         <button
-          className={ !selectedImageUrl && !cameraOpen ? `w-[83px] h-[40px] rounded-[8px] text-Grises/200
+          className={ !selectedImageUrl && !cameraOpen ? `w-[83px] h-[40px] rounded-[8px]  text-Grises/200
         bg-Turquesa/900   text-[16px] font-medium` :  `w-[83px] h-[40px] rounded-[8px] text-black
         bg-Turquesa/700   text-[16px] font-medium`}
         >

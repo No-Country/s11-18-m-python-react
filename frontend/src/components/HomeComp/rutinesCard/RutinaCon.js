@@ -9,7 +9,7 @@ export const  ROUTINECONTENT =  [{
       src: <FreeIcon    /> ,
       alt: "free"
     }, 
-    img: "https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    img: "/images/rutinasfree.png",
     title: "Fortalecimiento con pesas",
     number: 6
   },
@@ -20,7 +20,31 @@ export const  ROUTINECONTENT =  [{
       src: <TbPremiumRights className='w-full text-2xl h-full flex justify-center items-center '/>,
       alt: "paga"
     }, 
-    img: "https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    img: "/images/rutinapaga.png",
+    title: "Piernas y Gluteos",
+    number: 22
+  
+  },
+  {
+    RoutineID: 3,
+    type: {
+      typeid: 1,
+      src: <TbPremiumRights className='w-full text-2xl h-full flex justify-center items-center '/>,
+      alt: "paga"
+    }, 
+    img: "/images/rutinapaga.png",
+    title: "Piernas y Gluteos",
+    number: 22
+  
+  },
+  {
+    RoutineID: 4,
+    type: {
+      typeid: 0,
+      src: <FreeIcon />,
+      alt: "paga"
+    }, 
+    img: "/images/rutinapaga.png",
     title: "Piernas y Gluteos",
     number: 22
   

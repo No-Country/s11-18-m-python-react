@@ -14,7 +14,7 @@ import React from 'react'
 const ConsigueSeguidor = () => {
   return (
     
-    <main className='bg-black min-h-screen'>
+    <main className='bg-black min-h-screen relative flex flex-col justify-center items-center'>
 
 
         <div className=' relative'>
@@ -30,10 +30,11 @@ const ConsigueSeguidor = () => {
         <br />
         Compartiendo mi viaje hacía mi mejor versión 🏋🏼‍♀️ ️‍
         </p>
+        <div className='absolute top-12 right-5 '>
+        <Avatar/>
         </div>
 
-        <div className='absolute top-44 right-[172px]'>
-        <Avatar/>
+       
         </div>
 
         <div className='p-2 flex gap-9 flex-col'>
@@ -51,8 +52,8 @@ const ConsigueSeguidor = () => {
         <PublicacionTexto/>
         </div>
 
-        <div className='ml-36 mt-[90px] mb-5'>
-    <div className='border-[2px] border-white w-[105px]'></div>
+        <div className='mx-auto mt-[90px] mb-5 rounded-md'>
+    <div className='border-[2px] border-white w-[105px] rounded-lg'></div>
     </div>
 
     </main>
