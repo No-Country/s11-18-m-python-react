@@ -7,8 +7,8 @@ function NavBar({textLogo}) {
   return (
     <>
     <StatusBar/>
-    <MenuBar logo={textLogo}/>
-    <SearchBar/>
+    <MenuBar logo={textLogo} />
+    <SearchBar />
     
     
     </>

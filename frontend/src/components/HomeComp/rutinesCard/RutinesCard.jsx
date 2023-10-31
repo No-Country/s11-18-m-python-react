@@ -13,7 +13,7 @@ const  RutinesCard =  () => {
 
   return ( 
     <div className=' w-full py-2 '>
-      <h2 className="text-Turquesa/600 font-medium text-2xl">Rutinas gratuitas</h2>
+      <h2 className="text-Turquesa/600 font-medium text-2xl pl-2">Rutinas gratuitas</h2>
       <div className='flex overflow-x-scroll pb-10 hide-scroll-bar gap-2 '>
 <div className='flex flex-nowrap '>
 
