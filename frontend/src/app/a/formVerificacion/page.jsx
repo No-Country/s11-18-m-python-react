@@ -5,9 +5,9 @@ const FormVerificacion = () => {
     
   return (
     
-    <main className='w-[412px] h-[1035px] bg-black min-h-screen'>
+    <main className='w-full h-full bg-black '>
  
-    <div className='px-4'>
+    <div className='px-2'>
 
     <div>    
     <h2 className='py-[16px] text-[24px] font-medium text-Turquesa/600'>
@@ -50,7 +50,7 @@ const FormVerificacion = () => {
    
     </div>
 
-    <div className='flex justify-center gap-4'>
+    <div className='flex w-f justify-center gap-2'>
         <button className='w-[182px] h-[40px] bg-transparent text-Turquesa/600 rounded-[8px]
          border-Turquesa/600 border-[1px] text-[18px]'>
             Cancelar
@@ -62,7 +62,7 @@ const FormVerificacion = () => {
     </div>
 
     <div className='flex justify-center items-end mt-[340px'>
-    <div className='border-[2px] border-white w-[105px]'></div>
+    <div className='   bottom-0    border-[2px] border-white w-[105px]'></div>
     </div>
 
    </main>

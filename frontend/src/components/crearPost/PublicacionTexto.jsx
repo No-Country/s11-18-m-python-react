@@ -8,7 +8,7 @@ import { PiShareFatDuotone } from "react-icons/pi";
 const PublicacionTexto = () => {
   return (
 
-    <article className='w-[380px] h-[250px] bg-zinc-800 rounded-[8px] text-white'>
+    <article className='w-[380px] h-[250px] bg-zinc-800 rounded-[8px] text-white my-2'>
 
     <div className='flex justify-between px-3 py-5'>
 
@@ -43,7 +43,7 @@ const PublicacionTexto = () => {
   </div>
   
 
-  <div className='border-[1px] border-zinc-500 w-[345px] ml-4'></div>
+  <div className='border-[1px] border-zinc-500 w-[345px] ml-4 '></div>
 
   <div className='flex justify-end pr-5 pt-4 gap-4 text-xl'>
   <AiOutlineLike/>

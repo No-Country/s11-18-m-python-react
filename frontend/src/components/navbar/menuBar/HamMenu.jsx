@@ -12,7 +12,7 @@ function HamMenu() {
   
 
   return (
-    <div className='relative'>
+    <div >
      <AiOutlineMenu onClick={toggleOpen} />
     { isOpen ?  
     

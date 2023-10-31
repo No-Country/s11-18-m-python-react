@@ -13,42 +13,42 @@ const HamburgerMenu = ({toggleOpen}) => {
     toggleOpen(true)
   }
   return (
-    <article className={  CloseView ?  `bg-Turquesa/300 w-[275px] h-[733px] rounded-r-[8px] absolute bottom-[-26.5em] z-10 left-[-1.9em]` : `hidden`}>
+    <article className={  CloseView ?  `bg-Turquesa/300 w-[275px] h-[733px] rounded-r-[8px] absolute bottom-[-25.71em] z-30 left-0` : `hidden`}>
   <CloseButton  ButtonClose={handleClose}  />        
   <ul className='text-white leading-[57px] pl-[28px] pt-[62px] text-xl font-light'>
             <li>
-              <Link href={"/a/feed"}>
+              <Link href={"/a"}>
               
               Feed
-              </Link> 
+              </Link>
               
               </li>
             <li>
               <Link href={"/a/rutinas"}>
               
               Rutinas
-              </Link> 
+              </Link>
               
               </li>
             <li>
               <Link href={"/a/coach"}>
               
               Coach
-              </Link> 
+              </Link>
               
               </li>
             <li>
               <Link href={"/a/perfil"}>
               
               Mi perfil
-              </Link> 
+              </Link>
               
               </li>
             <li>
               <Link href={"/a/ayuda"}>
               
               Ayuda
-              </Link> 
+              </Link>
               
               </li>
         </ul>
