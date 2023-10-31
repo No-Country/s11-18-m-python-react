@@ -7,10 +7,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-      <>
+      <div className="relative">
       <NavBar textLogo={"logo"}/>
+      
       {children}
       
-      </>
+      </div>
   )
 }

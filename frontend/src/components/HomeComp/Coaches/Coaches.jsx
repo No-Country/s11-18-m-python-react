@@ -1,4 +1,4 @@
-import CarruselProfiles from "./carruselProfiles/CarruselProfiles";
+import CarruselProfiles from "./carruselCoahes/CarruselProfiles";
 
 export default function CoachesDest() {
   return (

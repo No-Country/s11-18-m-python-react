@@ -8,7 +8,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 
 const MenuBar = ({logo}) => {
   return (
-    <article className='w-full h-[64px] bg-Turqusa/200 flex justify-between items-center px-[45px]'>
+    <article className='w-full h-[64px] bg-Turqusa/200 flex justify-between items-center px-[45px] relative'>
         <div className='flex text-white text-2xl gap-2'>
            
             <HamMenu/>
