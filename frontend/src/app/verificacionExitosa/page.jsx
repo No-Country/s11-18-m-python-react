@@ -1,13 +1,11 @@
 import React from 'react'
-import StatusBar from '@/components/statusBar/StatusBar'
-import MenuBar from '@/components/menuBar/MenuBar'
+
 
 const VerificacionExitosa = () => {
   return (
     
     <main className='w-[412px] h-[1035px] bg-black min-h-screen'>
-    <StatusBar/>
-    <MenuBar/>
+
 
     <div className='px-4'>
 
