@@ -37,7 +37,16 @@ class PostView(viewsets.ModelViewSet):
         post = get_object_or_404(queryset, pk=pk)
         serializer = PostSerializer(post)
         return Response(serializer.data)
-
+    
+    def destroy(self, request, pk=None):
+        post = self.get_object()
+        self.perform_destroy(post)
+        return Response(
+            {
+                "message": "Post succesfully deleted",
+            },
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommmentPostSerializer
@@ -92,7 +101,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             {
                 "message": "Comment succesfully deleted",
             },
-            status=status.HTTP_200_OK,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
