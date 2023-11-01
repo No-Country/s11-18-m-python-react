@@ -24,7 +24,7 @@ const Coach = () => {
         </p>
     </div>
 
-    <div className='flex justify-center items-center gap-6 py-4 border-2'>
+    <div className='flex justify-center items-center gap-6 py-4 '>
     <Avatar/>
     <PiArrowFatRightLight className="text-Turquesa/600 w-[52px] h-[36px]"/>
     <div className='rounded-full w-[80px] h-[80px]'>
