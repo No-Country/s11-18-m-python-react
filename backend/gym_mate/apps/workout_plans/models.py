@@ -189,7 +189,7 @@ class WorkoutImage(TimeStampedModel):
         verbose_name_plural = 'Image'
 
     def __str__(self):
-        return str(self.title)
+        return str(self.url_img)
 
 
 class WorkoutVideo(TimeStampedModel):
