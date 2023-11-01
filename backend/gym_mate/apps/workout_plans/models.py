@@ -182,7 +182,7 @@ class WorkoutImage(TimeStampedModel):
     """Class representing a Workout Image"""
 
     url_img = models.ImageField(upload_to='rutinas/img', blank=True, null=True)
-    id_workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    id_workout = models.ForeignKey(Workout, related_name='workoutImg', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Image'
@@ -197,7 +197,7 @@ class WorkoutVideo(TimeStampedModel):
 
     url_video = models.FileField(
         upload_to='rutinas/videos', null=True, blank=True)
-    id_workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    id_workout = models.ForeignKey(Workout, related_name='workoutVideo', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Video'

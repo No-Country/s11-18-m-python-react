@@ -100,10 +100,25 @@ class WorkoutSerializersRetrieve(serializers.ModelSerializer):
 
 class WorkoutSerializerList(serializers.ModelSerializer):
     " Class representig a Workout Serializer. Method list "
-    
+    workoutImg = WorkoutImageSerializer(many=True)
+    workoutVideo = WorkoutVideoSerializer(many=True)
+
     class Meta:
         model = Workout
-        fields = ("__all__")
+        fields = [
+            "id",
+            "workoutImg",
+            "workoutVideo",
+            "created",
+            "modified",
+            "workout_name",
+            "description",
+            "reps",
+            "series",
+            "weight_kg",
+            "rest_mins",
+            "id_set"
+        ]
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
