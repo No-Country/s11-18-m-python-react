@@ -15,11 +15,18 @@ Bienvenido a la documentación de la API de GymMate App. Aquí encontrarás info
         - [Dejar de seguir a un usuario](#dejar-de-seguir-a-un-usuario)
         - [Cerrar Sesión](#cerrar-sesión)
 
-  - [Usuarios-coachs](#usuario-coachs)
+    - [Usuarios-coachs](#usuario-coachs)
 
-  - [Post](#post) 
+    - [Posts](#posts)
+        - [Publicar un post](#publicar-un-post)
+        - [Editar un post](#editar-un-post)
+        - [Eliminar un post](#eliminar-un-post)
+        - [Comentar un post](#comentar-un-post)
+        - [Editar/Eliminar un comentario](#editar-o-eliminar-un-comentario)
+        - [Likear un post](#likear-un-post)
+        - [Repostear un post](#repostear-un-post)
 
-  - [Rutinas](#rutinas)
+    - [Rutinas](#rutinas)
     
 
 # Endpoints 
@@ -77,7 +84,7 @@ Bienvenido a la documentación de la API de GymMate App. Aquí encontrarás info
   - `Authorization: Bearer [token]` (Reemplaza `[token]` con el token válido)
 - **Respuesta Exitosa**:
   - Código de estado: 200 (OK)
-  - Cuerpo de respuesta: `{"message": "Update successfully!", "user": {"id": 1, "username": "usuario123_update", "email": "usuario_update@example.com", ...}}`)
+  - Cuerpo de respuesta: `{"message": "Update successfully!", "user": {"id": 1, "username": "usuario123_update", "email": "usuario_update@example.com", ...}}`
 
 ### Ver el perfil de un usuario
 
@@ -127,3 +134,98 @@ Bienvenido a la documentación de la API de GymMate App. Aquí encontrarás info
 
 
 ## Posts
+
+### Publicar un post
+- **URL**: `/post/post/`
+- **Método HTTP**: `POST`
+- **Descripción**: Este endpoint permite a los usuarios crear una publicación.
+- **Parámetros de Entrada**:
+  - `content` (text): Contenido de la publicación.
+  - `user` (integer): Id del usuario que está realizando la publicación.
+  - `image_url` (file) [ OPCIONAL ]: Imagen que acompaña la publicación.
+  - `video_url` (file) [ OPCIONAL ]: Video que acompaña la publicación.
+- **Respuesta Exitosa**:
+  - Código de estado: 201 (Created)
+  - Cuerpo de respuesta: `{"message": "Post created successfully!", "Post": `Contenido del post`}`
+- **Respuesta en Caso de Error**:
+  - Codigo de estado: 400 (Bad request).
+
+### Editar un post
+- **URL**: `/post/post/<int:pk>`
+- **Método HTTP**: `PUT/PATCH`
+- **Descripción**: Este endpoint permite a los usuarios editar una publicación en particular.
+- **Parámetros de Entrada**:
+  - `content` (text): Contenido de la publicación.
+  - `user` (integer): Id del usuario que está realizando la publicación.
+  - `image_url` (file) [ OPCIONAL ]: Imagen que acompaña la publicación.
+  - `video_url` (file) [ OPCIONAL ]: Video que acompaña la publicación.
+- **Respuesta Exitosa**:
+  - Código de estado: 200 (Ok)
+- **Respuesta en Caso de Error**:
+  - Codigo de estado: 400 (Bad request).
+
+### Eliminar un post
+- **URL**: `/post/post/<int:pk>`
+- **Método HTTP**: `DELETE`
+- **Descripción**: Este endpoint permite a los usuarios eliminar una publicación en particular.
+- **Parámetros de Entrada**:- **Respuesta Exitosa**:
+  - Código de estado: 204 (No content)
+    - Cuerpo de respuesta: `{"message": "Post succesfully deleted"}`
+- **Respuesta en Caso de Error**:
+  - Codigo de estado: 400 (Bad request).
+
+### Comentar un post
+- **URL**: `/post/comments/`
+- **Método HTTP**: `POST`
+- **Descripción**: Este endpoint permite a los usuarios crear un comentario.
+- **Parámetros de Entrada**:
+  - `comment_content` (text): Contenido del comentario.
+  - `comment_post` (integer): Id del post del que está realizando el comentario.
+  - `comment_user` (integer): Id del usuario que está realizando el comentario.
+- **Respuesta Exitosa**:
+  - Código de estado: 201 (Created)
+  - Cuerpo de respuesta: `{"message": "Comment created", "Comment": `Contenido del comentario`}` 
+- **Respuesta en Caso de Error**:
+  - Codigo de estado: 400 (Bad request).
+
+### Editar o eliminar un comentario
+- **URL**: `/post/comments/<int:pk>`
+- **Método HTTP**: `PUT/PATCH`
+- **Descripción**: Este endpoint permite a los usuarios editar un comentario en particular.
+- **Parámetros de Entrada**:
+  - `comment_content` (text): Contenido del comentario.
+  - `comment_post` (integer): Id del post del que está realizando el comentario.
+  - `comment_user` (integer): Id del usuario que está realizando el comentario.
+  - `hide_comment` (boolean): Si es True, el comentario está escondido, sino el comentario se encuentra visible. Default es falso.
+- **Respuesta Exitosa**:
+  - Código de estado: 200 (Ok)
+  - Cuerpo de respuesta (CASO QUE SE ELIMINE): `{"message": "Comment succesfully deleted"}`
+  (CASO QUE SE ESCONDA / SE TOME COMO VISIBLE): `{"message": "Comment is no longer hidden!"}` / `{"message": "Comment succesfully hidden!"}`
+- **Respuesta en Caso de Error**:
+  - Codigo de estado: 400 (Bad request).
+
+### Likear un post
+- **URL**: `/post/likes/`
+- **Método HTTP**: `POST`
+- **Descripción**: Este endpoint permite a los usuarios dar like a un post.
+- **Parámetros de Entrada**:
+  - `likes_post` (integer): Id del post que se está likeando.
+  - `likes_user` (integer): Id del usuario que está realizando el like.
+- **Respuesta Exitosa**:
+  - Código de estado: 201 (Created)
+  - Cuerpo de respuesta: `{"message": "Liked successfully!"}` 
+- **Respuesta en Caso de Error**:
+  - Codigo de estado: 400 (Bad request).
+
+### Repostear un post
+- **URL**: `/post/reposts/`
+- **Método HTTP**: `POST`
+- **Descripción**: Este endpoint permite a los usuarios dar repost a un post.
+- **Parámetros de Entrada**:
+  - `repost_post` (integer): Id del post que se está reposteando.
+  - `repost_user` (integer): Id del usuario que está realizando el repost.
+- **Respuesta Exitosa**:
+  - Código de estado: 201 (Created)
+  - Cuerpo de respuesta: `{"message": "Reposted successfully!"}` 
+- **Respuesta en Caso de Error**:
+  - Codigo de estado: 400 (Bad request).
