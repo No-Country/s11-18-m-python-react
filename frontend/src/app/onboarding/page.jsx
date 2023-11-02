@@ -35,7 +35,7 @@ const OnboardingPage = () => {
           </Link>
           <MdKeyboardArrowRight className='text-3xl pt-1' />
         </div>
-        <div className='pt-32'>
+        <div className='pt-32 flex flex-col items-center'>
           <div className='pl-5 pb-6'>
             <h1 className='text-Turquesa/600 font-semibold text-[34px]'>
               Comparti tu progreso
