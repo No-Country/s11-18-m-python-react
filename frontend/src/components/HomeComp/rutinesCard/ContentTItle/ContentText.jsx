@@ -103,7 +103,7 @@ const VideoFaqRutineCont = ({ title, description, icon, iconText }) => {
   };
 
   return (
-    <div className="flex flex-col border-dark rounded-xl transition-all duration-500">
+    <div className=" flex-col border-dark rounded-xl hidden transition-all duration-500">
       <div
         className="flex justify-between px-6 items-center h-[46px] cursor-pointer hover:bg-gray transition-colors rounded-xl"
         onClick={toggleOpen}
