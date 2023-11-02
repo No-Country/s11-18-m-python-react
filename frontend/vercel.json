@@ -1,0 +1,11 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/:path*",
+        "destination": "http://ec2-3-101-14-170.us-west-1.compute.amazonaws.com/:path*",
+        "has": [
+          { "type": "host", "value": "localhost" }
+        ]
+      }
+    ]
+  }
