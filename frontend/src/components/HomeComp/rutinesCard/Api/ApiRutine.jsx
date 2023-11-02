@@ -38,7 +38,7 @@ const RoutineComponent = ({Datos}) => {
   useEffect(() => {
     const fetchRoutines = async () => {
       try {
-        const response = await fetch('http://ec2-3-101-14-170.us-west-1.compute.amazonaws.com/routine/routine/');
+        const response = await fetch('https://ec2-3-101-14-170.us-west-1.compute.amazonaws.com/routine/routine/');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
