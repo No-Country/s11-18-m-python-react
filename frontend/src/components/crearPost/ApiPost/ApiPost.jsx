@@ -30,7 +30,7 @@ const PostComponent = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('https://ec2-3-101-14-170.us-west-1.compute.amazonaws.com/posts/posts/');
+        const response = await fetch('http://ec2-3-101-14-170.us-west-1.compute.amazonaws.com/posts/posts/');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
