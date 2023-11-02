@@ -3,7 +3,7 @@ import { BiChevronDown } from "react-icons/bi";
 
 const CategoryFilters = () => {
   return (
-    <article className='w-[412px] h-[280px] bg-Turqusa/200 text-white pt-5 pl-2'>
+    <article className='w-full h-[280px] rounded-md bg-Turqusa/200 text-white pt-5 px-2'>
             
             <div className='mb-4'>
             <h2 className='text-[16px] pb-2'>

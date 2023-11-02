@@ -1,6 +1,6 @@
 import CategoryCardComp from '@/components/categoryCard/EquilibrioCard'
 
-import FiltrosBar from '@/components/filtrosBar/FiltrosBar'
+import FiltrosBar from '@/components/HomeComp/rutinesCard/filtrosBar/FiltrosBar'
 import RutinesCard from '@/components/HomeComp/rutinesCard/RutinesCard'
 import TabsBar from '@/components/tabsBar/TabsBar'
 import React from 'react'

@@ -1,20 +1,15 @@
 'use client'
-import CrearPost from '@/components/crearPost/CrearPost';
 import React, { useState } from 'react';
+import CrearPost from '@/components/crearPost/CrearPost';
 
 function InputTextComp() {
   const [postContent, setPostContent] = useState('');
   const [crearPost, setCrearPost] = useState(false);
 
-  const handleInputChange = (e) => {
-    const newPostContent = e.target.value;
-    setPostContent(newPostContent);
-
-    // Redirige a la página de creación de posts si el contenido del post es lo suficientemente largo
-    if (newPostContent.trim().length > 0) {
-      setCrearPost(true); // Abrir el modal
-    }
+  const handleInputClick = () => {
+    setCrearPost(true); // Abrir el modal
   };
+
   const handleCloseModal = () => {
     setCrearPost(false); // Cerrar el modal
   };
@@ -27,15 +22,15 @@ function InputTextComp() {
         placeholder='¿Qué estás pensando, Manuel?...'
         name='search'
         value={postContent}
-        onChange={handleInputChange}
+        onClick={handleInputClick} // Open the modal on input click
+        onChange={(e) => setPostContent(e.target.value)}
       />
       {crearPost && 
-      <div className='absolute w-full h-full flex justify-center items-start top-0'>
-        
-        <CrearPost onClose={handleCloseModal} />
-        <div className='absolute bg-Negro w-full h-full z-10 opacity-70 top-0'></div>
-      </div> 
-        }
+        <div className='absolute w-full h-full flex justify-center items-start top-0'>
+          <CrearPost onClose={handleCloseModal} />
+          <div className='absolute bg-Negro w-full h-full z-10 opacity-70 top-0'></div>
+        </div>
+      }
     </>
   );
 }

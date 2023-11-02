@@ -6,7 +6,7 @@ import { RxSwitch } from "react-icons/rx";
 const CreaRutina = () => {
   return (
     
-    <main className='w-[412px] bg-black min-h-screen py-4'>
+    <main className='w-full bg-black min-h-screen py-4'>
 
  
 
@@ -44,7 +44,7 @@ const CreaRutina = () => {
 
             </article>
 
-            <article className='flex items-center justify-around text-white text[14px] px-5 pt-5'>
+            <article className='flex items-center w-full  justify-around  text-white text[14px] px-4 pt-5'>
                 <div className='font-medium'>
                     <h3>Rutina</h3>
                 </div>
@@ -72,28 +72,37 @@ const CreaRutina = () => {
             name='rutina'
             placeholder='Ingresa nombre'
             className='bg-transparent outline-none border-Turquesa/600
-             border-[1px] w-[380px] h-[32px] rounded-[4px] mt-2 pl-3' />
+             border-[1px] w-[380px] h-[32px] rounded-[4px] mt-2 pl-3' 
+             pattern="^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]+$"
+  title="Ingresa solo caracteres, sin números ni caracteres especiales"
+  />
         </div>
-        <div className='text-white w-[380px] h-[72px] mb-5'>
-            <label htmlFor="Name">Descripción</label>
-            <input type="text"
-            name='descripcion'
-            placeholder='Agrega descripción'
-            className='bg-transparent outline-none border-Turquesa/600
-             border-[1px] w-[380px] h-[128px] rounded-[4px] mt-2 pl-3' />
-        </div>
+        <div className="text-white w-[380px] h-[72px] mb-5">
+    <label htmlFor="Name">Descripción</label>
+    <textarea
+      name="descripcion"
+      placeholder="Agrega descripción"
+      className="bg-transparent outline-none border-Turquesa/600 border-[1px] w-[380px] h-[128px] rounded-[4px] mt-2 pl-3 py-2 overflow-hidden resize-none"
+    ></textarea>
+  </div>
     </form>
 
-    <h3 className='text-white pt-14'>
-        Dificultad
-    </h3>
-    <div className='w-[380px] h-[40px] border-Turquesa/600 border-[1px] rounded-[8px]
-    flex justify-between items-center text-white px-3 my-3'>
-        <h4>
-            Seleccionar dificultad
-        </h4>
-        <BsChevronDown className='text-white'/>
+    <div className="relative w-[380px] mt-10">
+  <label className="text-white">Seleccionar dificultad</label>
+  <div className="relative mt-">
+    <select
+      className="appearance-none bg-transparent border-Turquesa/600 border-[1px] rounded-[8px] w-full h-[40px] text-white px-3 py-2 pr-10"
+      name="dificultad"
+    >
+      <option value="facil" className='text-Negro'>Fácil</option>
+      <option value="normal" className='text-Negro'>Normal</option>
+      <option value="dificil" className='text-Negro rounded-b-'>Difícil</option>
+    </select>
+    <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+      <BsChevronDown className="text-white" />
     </div>
+  </div>
+</div>
 
      <h3 className='text-white py-5'>
         Tipo

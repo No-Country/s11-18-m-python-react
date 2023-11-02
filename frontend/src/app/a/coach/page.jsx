@@ -3,6 +3,7 @@ import Avatar from '@/components/avatar/Avatar'
 import { PiArrowFatRightLight } from "react-icons/pi";
 import { AiOutlineCheck} from "react-icons/ai";
 import React from 'react'
+import Link from 'next/link';
 
 
 const Coach = () => {
@@ -42,7 +43,10 @@ const Coach = () => {
 
     <button className='w-full h-[40px] text-black rounded-[8px]
      my-8 bg-Turquesa/700 flex items-center justify-center gap-[10px] text-[18px]' >
-        <span><AiOutlineCheck/></span>Verificar perfil
+       <Link href={"/a/coach"} className='flex  justify-center items-center w-full'>
+        <span><AiOutlineCheck className='mr-3'/></span>Verificar perfil
+       
+       </Link>
     </button>
 
     </div>

@@ -6,7 +6,7 @@ import SearchBar from './searchBar/SearchBar'
 function NavBar({textLogo}) {
   return (
     <>
-    <StatusBar/>
+    {/* <StatusBar/> */}
     <MenuBar logo={textLogo} />
     <SearchBar />
     

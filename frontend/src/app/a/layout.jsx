@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
       <NavBar textLogo={"logo"}/>
       
       {children}
-      
-      </div>
+     
+    </div>
   )
 }

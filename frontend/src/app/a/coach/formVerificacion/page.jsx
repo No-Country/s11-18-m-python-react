@@ -61,10 +61,7 @@ const FormVerificacion = () => {
         </button>
     </div>
 
-    <div className='flex justify-center items-end mt-[340px'>
-    <div className='   bottom-0    border-[2px] border-white w-[105px]'></div>
-    </div>
-
+    
    </main>
 
   )

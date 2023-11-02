@@ -12,7 +12,7 @@ const MenuBar = ({logo}) => {
         <div className='flex text-white text-2xl gap-2'>
            
             <HamMenu/>
-            <AiOutlineSearch />
+            {/* <AiOutlineSearch /> */}
         </div>
         <Link href="/a" className='rounded-full'>
         <div className='bg-black w-[48px] h-[48px] rounded-full flex justify-center items-center'>
@@ -26,7 +26,10 @@ const MenuBar = ({logo}) => {
         </Link>
 
         <div className='rounded-full w-[48px] h-[48px]'>
+            <Link href={"/a/Perfil"}>
             <img className='w-full h-full object-cover rounded-full' src="https://images.pexels.com/photos/1229356/pexels-photo-1229356.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="avatar image" />
+            
+            </Link>
         </div>
 
     </article>

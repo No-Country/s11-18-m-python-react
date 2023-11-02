@@ -31,7 +31,7 @@ export default function CardMenAn () {
         
         {CARDSCONTENT.map((cards) => {
             return(
-<div key={cards.Subs_id} className="bg-Negro border-2 border-Turquesa/600 rounded-md text-Blanco flex  flex-col justify-center mx-2 items-center w-[300px] h-fit  py-5">
+<div key={cards.Subs_id} className="bg-Negro border-2 border-Turquesa/600 rounded-md text-Blanco flex  flex-col justify-center mx-2 items-center w-[340px] h-fit  py-5">
             <h4 className="text-Turquesa/600 first-letter:uppercase font-semibold text-center text-3xl mt-1">{cards.title}</h4>
             <span className="text-Blanco text-xl text-center  ">${cards.subtitle}</span>        
             
