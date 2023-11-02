@@ -120,7 +120,7 @@ Toda la documentacion por parte del backend, los endpoints y las respuestas de s
 
 ### Tecnologias usadas para la API
 ![Django Rest](https://img.shields.io/badge/django_rest_-3.14.0-ED1C24?style=for-the-badge&logo=django&logoColor=white)
-[![AWS](https://img.shields.io/badge/-AWS-ffa500?logo=amazonaws&logoColor=white&style=for-the-badge)][![AWS EC2](https://img.shields.io/badge/-AWS_EC2-ffa500?logo=amazonec2&logoColor=white&style=for-the-badge)]
+![AWS](https://img.shields.io/badge/-AWS-ffa500?logo=amazonaws&logoColor=white&style=for-the-badge)![AWS EC2](https://img.shields.io/badge/-AWS_EC2-ffa500?logo=amazonec2&logoColor=white&style=for-the-badge)
 ![NGINX](https://img.shields.io/badge/-NGINX-white?logo=nginx&logoColor=008000&style=for-the-badge)
 ![Gunicorn](https://img.shields.io/badge/Gunicorn-00000?style=for-the-badge&logo=gunicorn&logoColor=green&color=white)
 ![POSTGRESQL](https://img.shields.io/badge/PostgreSQL-00000?style=for-the-badge&logo=postgresql&logoColor=blue&color=white)
